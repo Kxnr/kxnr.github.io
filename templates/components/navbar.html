@@ -1,0 +1,12 @@
+<div class="container navbar">
+  <ul class="navbar-list">
+
+    {% for link in section.content %}
+      <li class="navbar-item"><a href="{{ link.ref }}" class="navbar-link">{{ link.text }}</a></li>
+    {% endfor %}
+
+    <li id="back-to-top" class="navbar-item"><button onclick="navbar.scrollToTop()" class="button-primary" title="Back to Top">Top</button></li>
+  </ul>
+
+  <script src="/static/js/navbar.js"></script>
+</div>

@@ -1,0 +1,167 @@
+/* header */
+@font-face { font-family: Office-Code; src: url('/static/fonts/OfficeCodePro-Light.otf'); }
+/* body */
+@font-face { font-family: Baskerville; src: url('/static/fonts/LibreBaskerville-Regular.otf'); }
+/* Default / links */
+@font-face { font-family: Ostrich; src: url('/static/fonts/OstrichSans-Heavy.otf'); }
+
+/*
+
+Elements are on three layers
+
+background: 0-49
+content: 50-99
+overlays: 100+
+
+*/
+
+/* Typography
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.container {
+}
+
+body {
+  font-family: Ostrich, "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+img {
+    background: white;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: Office-Code
+}
+
+ul, ol {
+  margin: 0;
+}
+
+p {
+  font-family: Baskerville;
+  margin-bottom: 0;
+}
+
+
+.section {
+    margin-bottom: 1.2rem;
+    margin-top: 1.2rem;
+    background: white;
+    border-radius: .5rem;
+}
+
+.section-heading, .section-description {
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    margin: 0;
+    text-align: center;
+}
+
+.section-sub-heading {
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    margin: 0;
+    text-align: center;
+}
+
+.content {
+  font-family: Baskerville;
+  text-indent: 4em;
+  text-align: left;
+  padding-bottom: .5em;
+  padding-top: .5em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+/*
+Parallax background
+*/
+.parallax {
+    width: 100%;
+}
+
+#draw-buffer {
+    z-index: -1;
+    position: fixed;
+    background-color: black;
+    top: 0px;
+}
+
+/* @media only screen and (max-device-width: 1366px) {
+  .parallax {
+    background-attachment: scroll;
+  }
+} */
+
+/*
+Docking Navigation
+
+Adapted from getskeleton.com
+*/
+
+#back-to-top {
+  display: none;
+  margin: 0;
+  height: 1.6em; /* matches line-height of item */
+}
+#back-to-top > .button-primary{
+    margin: 0;
+    height: 100%;
+    line-height: inherit;
+    font-size: inherit;
+}
+
+.navbar {
+    text-align: center;
+    background: none;
+    padding: 0.5em 0 0.5em
+}
+
+.navbar-item {
+    text-transform: uppercase;
+    font-size: calc(1rem + 0.5vw);
+    line-height: 1.6em;
+    font-weight: 600;
+    letter-spacing: .1em;
+    margin-right: .5em;
+    margin-left: .5em;
+    text-decoration: none;
+    color: #222;
+    height: 100%;
+}
+
+.navbar-link {
+    text-decoration: none;
+    color: #222;
+}
+
+/* Larger than tablet */
+@media (min-width: 750px) {
+  .navbar {
+    border-top-width: 0;
+    display: block;
+    width: 100%;
+    max-width: none;
+    background: none;
+    border-top: 1px solid #eee; }
+  .navbar > .container {
+    width: 100%; }
+  .navbar-list {
+    list-style: none;
+    margin-bottom: 0; }
+  .navbar-item {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 0; }
+  .navbar-link.active {
+    color: #33C3F0; }
+  .has-docked-nav .navbar {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    background: #fff; }
+  .has-docked-nav #back-to-top {
+    display: inline-block;
+  }
+}

@@ -1,0 +1,26 @@
+.center {
+    display: block;
+    text-align: center;
+    height: 50%;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+}
+
+input[type=text], input[type=password] {
+    color: black;
+    font-family: Baskerville;
+}
+
+input[type=submit] {
+    color: #bbb;
+}
+
+label {
+    text-align: left;
+    color: #bbb;
+}
+
+figcaption {
+    color: white;
+}
