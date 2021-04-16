@@ -1,23 +1,26 @@
-<div class="container">
-  <div id="{{ section.id }}" class="section">
-    <h3 class="section-heading">{{ section.name }}</h3>
-    <p class="section-description">{{ section.description }}</p>
-  </div>
-</div>
-
-{% for left_item, right_item in section.content|batch(2, False) %}
+{% macro render(section) %}
   <div class="container">
-    <div class="row">
-      <div class="one-half column section">
-        <h4 class="section-sub-heading">{{ left_item.name }}</h4>
-        <img class="u-max-full-width project-img" src="{{ left_item.thumbnail }}">
-      </div>
-      {% if right_item %}
-        <div class="one-half column section">
-          <h4 class="section-sub-heading">{{ right_item.name }}</h4>
-          <img class="u-max-full-width project-img" src="{{ right_item.thumbnail }}">
-        </div>
-      {% endif %}
+    <div id="{{ section.id }}" class="section">
+      <h3 class="section-heading">{{ section.name }}</h3>
+      <p class="section-description">{{ section.description }}</p>
     </div>
   </div>
-{% endfor %}
+
+  {% for left_item, right_item in section.content|batch(2, False) %}
+    <div class="container">
+      <div class="row">
+        <div class="one-half column section">
+          <h4 class="section-sub-heading">{{ left_item.name }}</h4>
+          <img class="u-max-full-width project-img" src="{{ left_item.thumbnail }}">
+        </div>
+        {% if right_item %}
+          <div class="one-half column section">
+            <h4 class="section-sub-heading">{{ right_item.name }}</h4>
+            <img class="u-max-full-width project-img" src="{{ right_item.thumbnail }}">
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+
+{% endmacro %}

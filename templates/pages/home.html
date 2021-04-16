@@ -1,46 +1,35 @@
 {% extends "components/base.html" %}
-{% from "components/component_macros.html" import render_article, render_list, render_navbar, render_panels  %}
+{% import "components/article.html" as article %}
+{% import "components/full_header.html" as header %}
+{% import "components/panels.html" as panels %}
+{% import "components/footer.html" as footer %}
 
 {% block content %}
   <link rel="stylesheet" href="/static/css/pages/home.css" type="text/css">
 
-  <div class="container">
-    <div id="hero" class="section header">
-      <h1 class="section-heading">Connor Keane Personal Website</h1>
+<!-- TODO: generate links by items on page, add additional links -->
+  {{ additional_links.update({feature.name: feature.id,
+                                 collection.name: collection.id,
+                                 previews.name: previews.id }) | default(additional_links, true) }}
 
-      <!--Docking navigation bar-->
-      {{ render_navbar({"content": [{ "text": "About Me", "ref": "#about-me"},
-                                     { "text": "Projects", "ref": "#projects"},
-                                     { "text": "Gallery",  "ref": "/gallery"},
-                                     { "text": "Links",    "ref": "#resources"},
-                                     { "text": "Private",  "ref": "/private"}]})
-      }}
+  {{ header.render(additional_links) }}
+<!--                                     { "text": "Projects", "ref": "#projects"},-->
+<!--                                     { "text": "Gallery",  "ref": "/gallery"},-->
+<!--                                     { "text": "Links",    "ref": "#resources"},-->
+<!--                                     { "text": "Private",  "ref": "/private"}]})-->
 
-    </div>
-  </div>
+  {% if feature %}
+    {{ article.render(feature) }}
+  {% endif %}
 
-  <!-- About Me -->
-  {{ render_article({"id": "about-me",
-                     "name": "About Me",
-                     "content": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec venenatis felis iaculis elit imperdiet, at finibus felis lobortis. Vivamus rutrum fermentum nunc, sed posuere libero ultricies sed. Pellentesque sagittis scelerisque quam, vitae blandit orci tincidunt et. Fusce ornare mi eget tincidunt gravida. Pellentesque venenatis id nisi sit amet luctus. Nam porttitor ante eget lorem aliquam imperdiet. Suspendisse potenti. Nunc blandit neque in velit molestie faucibus. Ut sit amet nibh sit amet massa ultrices iaculis. Vestibulum tincidunt efficitur dolor ac aliquam. Donec et auctor nisi.",
-                                 "Cras eu augue at urna tempus tincidunt. Nullam accumsan leo neque, ut ornare ligula posuere ac. Proin luctus vitae neque quis malesuada. Proin accumsan odio quam, et cursus erat pellentesque eget. Nulla ultricies eros et purus eleifend venenatis. Curabitur at nisi diam. Etiam pellentesque nisi mauris. Cras eget erat semper, lacinia elit at, lacinia diam. Proin vulputate venenatis massa, sed vehicula mi suscipit non. Pellentesque vel euismod tortor, at tempus justo. Nam nisi metus, pharetra vitae diam et, sagittis pulvinar risus. Phasellus bibendum est eu augue efficitur viverra. Ut aliquam sagittis nibh, nec lobortis leo placerat et. Sed libero arcu, iaculis consequat erat vulputate, vulputate venenatis eros."]})
-  }}
+  {% if preview %}
+    {{ panels.render(preview) }}
+  {% endif %}
 
-  <!-- Projects -->
-  {{ render_panels({"id": "projects",
-                     "name": "Featured Projects",
-                     "description": "Brief description of the general shape of projects, github links",
-                     "content": [{"name": "Project 1", "thumbnail": "https://via.placeholder.com/150"},
-                                 {"name": "Project 2", "thumbnail": "https://via.placeholder.com/150"},
-                                 {"name": "Project 3", "thumbnail": "https://via.placeholder.com/150"},
-                                 {"name": "Project 4", "thumbnail": "https://via.placeholder.com/150"},
-                                 {"name": "Project 5", "thumbnail": "https://via.placeholder.com/150"}]})
-  }}
+  {% if collection %}
+    {{ article.render(collection) }}
+  {% endif %}
 
-  <!-- Interesting Resources -->
-  {{ render_list({'content': ["Link 1", "Link 2", "Link 3"],
-                     'id': "resources-list",
-                     'name': "Links"})
-  }}
+<!--{#  {{ footer.render() }} #}-->
 
 {% endblock %}
