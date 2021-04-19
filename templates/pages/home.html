@@ -4,32 +4,23 @@
 {% import "components/panels.html" as panels %}
 {% import "components/footer.html" as footer %}
 
+{% macro add_link(links, new_link) %}
+  {% if new_link %}
+    {% do links.__setitem__(new_link.name, new_link.id) %}
+  {% endif %}
+{% endmacro %}
+
 {% block content %}
   <link rel="stylesheet" href="/static/css/pages/home.css" type="text/css">
-
-<!-- TODO: generate links by items on page, add additional links -->
-  {{ additional_links.update({feature.name: feature.id,
-                                 collection.name: collection.id,
-                                 previews.name: previews.id }) | default(additional_links, true) }}
+<!--  additional_links-->
+  {% do add_link(additional_links, feature) %}
+  {% do add_link(additional_links, preview) %}
+  {% do add_link(additional_links, collection) %}
 
   {{ header.render(additional_links) }}
-<!--                                     { "text": "Projects", "ref": "#projects"},-->
-<!--                                     { "text": "Gallery",  "ref": "/gallery"},-->
-<!--                                     { "text": "Links",    "ref": "#resources"},-->
-<!--                                     { "text": "Private",  "ref": "/private"}]})-->
-
-  {% if feature %}
-    {{ article.render(feature) }}
-  {% endif %}
-
-  {% if preview %}
-    {{ panels.render(preview) }}
-  {% endif %}
-
-  {% if collection %}
-    {{ article.render(collection) }}
-  {% endif %}
-
-<!--{#  {{ footer.render() }} #}-->
+  {{ article.render(feature) if feature }}
+  {{ panels.render(preview) if preview }}
+  {{ article.render(collection) if collection }}
+  {{ footer.render() if footer}}
 
 {% endblock %}

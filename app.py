@@ -8,6 +8,7 @@ import flask_login
 import components
 
 app = Flask(__name__)
+app.jinja_options['extensions'].append('jinja2.ext.do')
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test.db"
 app.config["SECURITY_PASSWORD_SALT"] = "test1234"
@@ -51,9 +52,7 @@ def _add_filtering_criteria(execute_state):
             and not execute_state.is_column_load
             and not execute_state.is_relationship_load
     ):
-        print(execute_state.statement)
         # TODO: rather than content, use a RolesRequired mixin
-        # TODO: what if no relationship is set for Roles?
         execute_state.statement = execute_state.statement.options(
             orm.with_loader_criteria(
                 Content,
@@ -75,15 +74,18 @@ def create_user():
 
 @app.route('/')
 def home():
-    additional_links = {"Gallery": url_for('gallery'), "Login": url_for('private')}
     feature = Content.query.filter_by(id='about-me').first()
     previews = Category.query.filter_by(id='featured-projects').first()
+    additional_links = {"Gallery": url_for('gallery'),
+                        "Login": url_for('private')}
+
     return components.home_page(feature, previews, collection=None, additional_links=additional_links)
 
 
 @app.route('/gallery/')
 def gallery():
-    return render_template("gallery.html")
+    category = Category.query.filter_by(id='project').first()
+    return components.gallery_page(category)
 
 
 @app.route('/private')

@@ -4,7 +4,6 @@ from jinja2 import Markup
 from flask import render_template, url_for
 import os
 
-# TODO: is there a better way to build navbar?
 # TODO: enhancement: make navbar support popovers for subsection
 
 ##########
@@ -12,8 +11,9 @@ import os
 # build all required data
 ##########
 
+
 def home_page(feature: Content, previews: Category = None,
-              collection: Content = None, additional_links = None):
+              collection: Content = None, additional_links = dict()):
     '''
     :param feature: name of article to feature
     :param previews: name of category for tiles
