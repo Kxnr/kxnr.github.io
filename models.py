@@ -6,6 +6,11 @@ import flask_login
 db = SQLAlchemy()
 
 
+class RoleRequiredMixin():
+    # TODO
+    pass
+
+
 class RoleUser(db.Model):
     __tablename__ = 'roles_users'
     id = db.Column(db.Integer(), primary_key=True)
