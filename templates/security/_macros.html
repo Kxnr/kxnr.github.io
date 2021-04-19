@@ -1,0 +1,45 @@
+{% macro render_field_with_errors(field) %}
+    <div class="row">
+      {{ field.label(**kwargs)|safe }} {{ field(**kwargs)|safe }}
+    </div>
+
+    {% if field.errors %}
+      <div class="row">
+        <ul>
+        {% for error in field.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro render_field(field) %}
+  <div class="row">
+    {{ field.label(**kwargs)|safe }} {{ field(**kwargs)|safe }}
+  </div>
+{% endmacro %}
+
+{% macro render_field_without_label(field) %}
+  <div class="row">
+    {{ field(**kwargs)|safe }}
+  </div>
+{% endmacro %}
+
+{% macro render_field_errors() %}
+  <div class="row">
+    {% if "class_" in kwargs %}
+      <ul class="{{ kwargs['class_'] }}">
+    {% else %}
+      <ul>
+    {% endif %}
+      {% for field in varargs %}
+        {% if field.errors %}
+          {% for error in field.errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+{% endmacro %}
