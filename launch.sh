@@ -1,13 +1,14 @@
-export FLASK_APP="app.py"
+#! /bin/bash
+source /home/kxnr/miniconda3/etc/profile.d/conda.sh
+conda activate website
+
+# TODO: setup configuration
 
 if [[ "$MODE" == "DEBUG" ]];
 then
+  export FLASK_APP="app.py"
   export FLASK_ENV="development"
-
-  # TODO: wait on quit?
-#  firefox --new-window http://127.0.0.1:5000/
+  flask run
 else
-  echo "RELEASE setup TODO"
+  gunicorn --workers 1 --bind unix:gunicorn.sock app:app
 fi
-
-flask run
