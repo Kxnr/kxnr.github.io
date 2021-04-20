@@ -9,8 +9,10 @@ from models import User, Role, Content, Category, db
 from sqlalchemy import event, orm, true
 from functools import reduce
 from PyKxnr.config import Config, load_configuration
+from flask_minify import minify
 
 app = Flask(__name__)
+minify(app=app, html=True, js=True, cssless=True)
 app.jinja_options['extensions'].append('jinja2.ext.do')
 
 
