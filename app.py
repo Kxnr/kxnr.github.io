@@ -3,29 +3,31 @@ import components
 import os
 
 from flask import Flask, render_template, url_for
-from flask_security import auth_required, Security, SQLAlchemyUserDatastore, hash_password
+from flask_security import login_required, Security, SQLAlchemyUserDatastore, hash_password
 from forms import ExtendedLoginForm, username_mapper, ExtendedTwoFactorSetupForm
 from models import User, Role, Content, Category, db
 from sqlalchemy import event, orm, true
 from functools import reduce
-from PyKxnr import Config, IniConfig, JsonConfig
+from PyKxnr.config import Config, load_configuration
 
 app = Flask(__name__)
 app.jinja_options['extensions'].append('jinja2.ext.do')
 
+
 # Load configuration from file
-config_file = os.env["FLASK_CONFIG"]
-if os.path.getext(config_file) == "json":
-    JsonConfig.load(config_file)
-elif os.path.getext(config_file) == "ini":
-    IniConfig.load(config_file)
-else:
-    raise Exception("Unsupported configuration type")
+config_file = os.environ["FLASK_CONFIG"]
+load_configuration(config_file)
+
 
 # set create
 app.config.from_object(Config.common)
 if app.config["ENV"] == "production":
     app.config.from_object(Config.production)
+
+    @app.before_first_request
+    def create_db():
+        db.create_all()
+        db.session.commit()
 
 else:
     app.config.from_object(Config.development)
@@ -38,8 +40,14 @@ else:
         db.session.commit()
 
 
+# Configuration options that rely on running python
+app.config["SECURITY_USER_IDENTITY_ATTRIBUTES"] = [{"username": {"mapper": username_mapper}}]
+
+
 # initialize app and database
 db.init_app(app)
+
+
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore, login_form=ExtendedLoginForm,
                     two_factor_setup_form=ExtendedTwoFactorSetupForm)
@@ -76,17 +84,21 @@ def _add_filtering_criteria(execute_state):
 
 @app.route('/')
 def home():
-    feature = Content.query.filter_by(id='about-me').first()
-    previews = Category.query.filter_by(id='featured-projects').first()
+    # feature = Content.query.filter_by(id='about-me').first()
+    # previews = Category.query.filter_by(id='featured-projects').first()
     additional_links = {"Gallery": url_for('gallery'),
                         "Login": url_for('private')}
 
-    return components.home_page(feature, previews, collection=None, additional_links=additional_links)
+    feature = None
+    previews = None
+
+    return components.home_page(feature=feature, previews=previews, collection=None, additional_links=additional_links)
 
 
 @app.route('/gallery/')
 def gallery():
-    category = Category.query.filter_by(id='project').first()
+    # category = Category.query.filter_by(id='project').first()
+    category = None
     return components.gallery_page(category)
 
 
