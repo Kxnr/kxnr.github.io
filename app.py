@@ -46,8 +46,6 @@ app.config["SECURITY_USER_IDENTITY_ATTRIBUTES"] = [{"username": {"mapper": usern
 
 # initialize app and database
 db.init_app(app)
-
-
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore, login_form=ExtendedLoginForm,
                     two_factor_setup_form=ExtendedTwoFactorSetupForm)
@@ -81,24 +79,19 @@ def _add_filtering_criteria(execute_state):
         )
 
 
-
 @app.route('/')
 def home():
-    # feature = Content.query.filter_by(id='about-me').first()
-    # previews = Category.query.filter_by(id='featured-projects').first()
+    feature = Content.query.filter_by(id='about-me').first()
+    previews = Category.query.filter_by(id='featured-projects').first()
     additional_links = {"Gallery": url_for('gallery'),
                         "Login": url_for('private')}
-
-    feature = None
-    previews = None
 
     return components.home_page(feature=feature, previews=previews, collection=None, additional_links=additional_links)
 
 
 @app.route('/gallery/')
 def gallery():
-    # category = Category.query.filter_by(id='project').first()
-    category = None
+    category = Category.query.filter_by(id='project').first()
     return components.gallery_page(category)
 
 
@@ -106,3 +99,7 @@ def gallery():
 @login_required
 def private():
     return "Logged In"
+
+
+if __name__ == "__main__":
+    app.run()
