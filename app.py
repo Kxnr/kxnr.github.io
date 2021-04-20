@@ -91,6 +91,6 @@ def gallery():
 
 
 @app.route('/private')
-@auth_required()
+@login_required
 def private():
     return "Logged In"
