@@ -20,9 +20,9 @@ load_configuration(config_file)
 
 
 # set create
-app.config.from_object(Config.common)
+app.config.update(Config.common.freeze())
 if app.config["ENV"] == "production":
-    app.config.from_object(Config.production)
+    app.config.update(Config.production.freeze())
 
     @app.before_first_request
     def create_db():
@@ -30,7 +30,7 @@ if app.config["ENV"] == "production":
         db.session.commit()
 
 else:
-    app.config.from_object(Config.development)
+    app.config.update(Config.development.freeze())
 
     @app.before_first_request
     def create_user():
