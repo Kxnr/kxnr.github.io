@@ -57,7 +57,9 @@ def _load_article(article, format="md"):
 
     if format == "file":
         # TODO split ext
-        format = os.path.splitext(article)
+        _, format = os.path.splitext(article)
+        format = format[1:] # split decimal
+
         with open(article, 'r') as f:
             article = f.read()
 

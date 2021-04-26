@@ -8,7 +8,6 @@
     {{ login_user_form.hidden_tag() }}
     {{ render_field(login_user_form.email, class_="four columns offset-by-four") }}
     {{ render_field(login_user_form.password, class_="four columns offset-by-four") }}
-    {{ render_field_errors(login_user_form.email, login_user_form.password, login_user_form.csrf_token, class_="four columns offset-by-four") }}
     {{ render_field_without_label(login_user_form.submit, class_="button-primary two columns offset-by-five") }}
   </form>
 </div>

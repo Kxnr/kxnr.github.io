@@ -6,7 +6,7 @@
 
 {% macro add_link(links, new_link) %}
   {% if new_link %}
-    {% do links.__setitem__(new_link.name, new_link.id) %}
+    {% do links.__setitem__(new_link.name, "#" ~ new_link.id) %}
   {% endif %}
 {% endmacro %}
 
