@@ -1,10 +1,11 @@
-{% macro render_article(section) %}
+{% macro render(section) %}
   <div class="container">
     <div id="{{ section.id }}" class="section">
+      {# section.name | lower | split_space | join('-') #}
       <h3 class="section-heading">{{ section.name }}</h3>
-      {% for p in section.content %}
-        <p class="content">{{ p }}</p>
-      {% endfor %}
+      <div class="content">
+        {{ section.content | safe }}
+      </div>
     </div>
   </div>
 {% endmacro %}

@@ -39,7 +39,7 @@ class User(db.Model, UserMixin):
 class Role(db.Model, RoleMixin):
     __tablename__ = 'role'
     id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(80), unique=True)
+    name = db.Column(db.String(80), unique=True, nullable=False)
     description = db.Column(db.String(255))
 
 
@@ -62,7 +62,7 @@ class Content(db.Model):
 
     # display data
     id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(80), unique=True)
+    name = db.Column(db.String(80), unique=True, nullable=False)
     content = db.Column(db.String(80))
     format = db.Column(db.String(), default="file")  # file, raw, html, or md
     thumbnail = db.Column(db.String(80), nullable=True)
@@ -79,5 +79,5 @@ class Content(db.Model):
 class Category(db.Model):
     __tablename__ = "category"
     id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(80), unique=True)
+    name = db.Column(db.String(80), unique=True, nullable=False)
     description = db.Column(db.String(256), nullable=True)
