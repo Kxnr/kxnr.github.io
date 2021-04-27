@@ -1,7 +1,30 @@
-from flask_security.datastore import Datastore, SQLAlchemyDatastore
+import flask
+from flask_security.datastore import Datastore, SQLAlchemyDatastore, SQLAlchemyUserDatastore
 from sqlalchemy.orm import joinedload
+# from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import and_, true
-from models import ContentRoles
+from models import User, Role, Content, Category, db
+from werkzeug.local import LocalProxy
+
+# TODO: change models to not need db instance
+# db = SQLAlchemy()
+
+def create_user_datastore():
+    if flask.current_app:
+        if "user_datastore" not in flask.g:
+            flask.g["user_datastore"] = SQLAlchemyUserDatastore(db, User, Role)
+        return flask.g
+    else:
+        return LocalProxy(lambda: SQLAlchemyUserDatastore(db, User, Role))
+
+
+def create_content_datastore():
+    if flask.current_app:
+        if "user_datastore" not in flask.g:
+            flask.g["user_datastore"] = SQLAlchemyContentDatastore(db, Content, Category)
+        return flask.g
+    else:
+        return LocalProxy(lambda: SQLAlchemyContentDatastore(db, Content, Category))
 
 
 class SQLAlchemyContentDatastore(SQLAlchemyDatastore, Datastore):

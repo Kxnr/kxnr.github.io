@@ -3,15 +3,12 @@ from functools import wraps
 from flask import current_app
 from flask_security import login_user, logout_user
 import flask_security
-from werkzeug.local import LocalProxy
 import flask.cli
-from datastore import SQLAlchemyContentDatastore
-from models import db, Content, Category, User
+from datastore import create_user_datastore, create_content_datastore
 
 with_appcontext = flask.cli.with_appcontext
-_datastore = LocalProxy(lambda: current_app.content_datastore)
-_security = LocalProxy(lambda: current_app.extensions["security"])
-_security_datastore = LocalProxy(lambda: current_app.extensions["security"].datastore)
+_datastore = create_content_datastore()
+_security_datastore = create_user_datastore()
 
 
 def commit(fn):
@@ -19,7 +16,6 @@ def commit(fn):
     def wrapper(*args, **kwargs):
         fn(*args, **kwargs)
         _datastore.commit()
-
     return wrapper
 
 
@@ -65,7 +61,7 @@ def content_creator(name, content, description, **kwargs):
 
 @content.command("edit")
 @click.argument("name")
-@click.option("--new_name", default="")
+@click.option("--new-name", default="")
 @click.option("--content", default="")
 @click.option("--description", default="")
 @click.option("--format", default="")
@@ -81,7 +77,6 @@ def content_editor(name, **kwargs):
 
     if content_obj is None:
         raise click.UsageError("Content not found")
-    content_obj = content_obj[0]
 
     values = {k: v for k, v in kwargs.items() if v != ""}
     if "new_name" in values:

@@ -1,10 +1,7 @@
-from flask_security import Security, UserMixin, RoleMixin, login_required, SQLAlchemyUserDatastore
+from flask_security import UserMixin, RoleMixin
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import event, orm
-import flask_login
 
 db = SQLAlchemy()
-
 
 class RoleRequiredMixin():
     # TODO
