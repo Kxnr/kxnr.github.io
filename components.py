@@ -13,7 +13,7 @@ import os
 
 
 def home_page(feature: Content, previews: Category = None,
-              collection: Content = None, additional_links = dict()):
+              collection: Content = None, additional_links: list[tuple[str, str]] = []):
     '''
     :param feature: name of article to feature
     :param previews: name of category for tiles

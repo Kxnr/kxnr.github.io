@@ -52,8 +52,8 @@ content_datastore = create_content_datastore()
 def home():
     feature = content_datastore.find_content(name='About Me', user=flask_login.current_user, one=True)
     previews = content_datastore.find_content(categories='Featured Projects')
-    additional_links = {"Gallery": url_for('gallery'),
-                        "Login": url_for('private')}
+    additional_links = [("Gallery", url_for('gallery')),
+                        ("Login", url_for('private'))]
 
     return components.home_page(feature=feature, previews=previews, collection=None, additional_links=additional_links)
 

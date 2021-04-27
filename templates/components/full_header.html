@@ -1,4 +1,4 @@
-{% macro render(link_dict) %}
+{% macro render(link_list) %}
   <div class="container">
     <div id="header" class="section header">
       <h1 class="section-heading">Connor Keane Personal Website</h1>
@@ -6,7 +6,7 @@
       <div class="container navbar">
         <ul class="navbar-list">
 
-          {% for text, ref in link_dict.items() %}
+          {% for text, ref in link_list %}
             <li class="navbar-item"><a href="{{ ref }}" class="navbar-link">{{ text }}</a></li>
           {% endfor %}
 
