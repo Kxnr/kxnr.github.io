@@ -64,7 +64,7 @@ def _load_article(article, format="md"):
             article = f.read()
 
     if format == "md":
-        return Markup(markdown(article, output_format="html5"))
+        return Markup(markdown(article, output_format="html5", extensions=["emdash"]))
 
     if format == "html":
         return Markup(article)
