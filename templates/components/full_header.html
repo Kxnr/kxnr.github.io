@@ -1,20 +1,22 @@
 {% macro render(link_list) %}
+<div id="header" class="container section header">
+  <script src="/static/js/navbar.js"></script>
+
+  <h1 class="section-heading">Connor Keane Personal Website</h1>
+
+
   <div class="container">
-    <div id="header" class="section header">
-      <h1 class="section-heading">Connor Keane Personal Website</h1>
+    <div class="navbar-spacer"></div>
+    <div class="navbar">
+      <ul class="navbar-list">
 
-      <div class="container navbar">
-        <ul class="navbar-list">
+        {% for text, ref in link_list %}
+        <li class="navbar-item"><a href="{{ ref }}" class="navbar-link">{{ text }}</a></li>
+        {% endfor %}
 
-          {% for text, ref in link_list %}
-            <li class="navbar-item"><a href="{{ ref }}" class="navbar-link">{{ text }}</a></li>
-          {% endfor %}
-
-          <li id="back-to-top" class="navbar-item"><button onclick="navbar.scrollToTop()" class="button-primary" title="Back to Top">Top</button></li>
-        </ul>
-
-        <script src="/static/js/navbar.js"></script>
-      </div>
+        <li id="back-to-top" class="navbar-item"><button onclick="navbar.scrollToTop()" class="button-primary" title="Back to Top">Top</button></li>
+      </ul>
     </div>
   </div>
+</div>
 {% endmacro %}

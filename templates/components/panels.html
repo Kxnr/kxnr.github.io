@@ -2,21 +2,39 @@
   <div class="container">
     <div id="{{ section.id }}" class="section">
       <h3 class="section-heading">{{ section.name }}</h3>
-      <p class="section-description">{{ section.description }}</p>
+      {% if section.description %}
+        <p class="section-description">{{ section.description }}</p>
+      {% endif %}
     </div>
   </div>
 
-  {% for left_item, right_item in section.content|batch(2, False) %}
+  {% for left_item, right_item in section.content | batch(2, False) %}
     <div class="container">
       <div class="row">
         <div class="one-half column section">
           <h4 class="section-sub-heading">{{ left_item.name }}</h4>
-          <img class="u-max-full-width project-img" src="{{ left_item.thumbnail }}">
+          <figure class="panels-figure">
+            <img class="u-max-full-width project-img" src="{{ left_item.thumbnail }}">
+            <figcaption>
+              <a class="button panels-link"
+                 href="{{ url_for('content_page', category=section.name, content=left_item.name) }}">
+                  Project Page
+              </a>
+            </figcaption>
+          </figure>
         </div>
         {% if right_item %}
           <div class="one-half column section">
             <h4 class="section-sub-heading">{{ right_item.name }}</h4>
-            <img class="u-max-full-width project-img" src="{{ right_item.thumbnail }}">
+            <figure class="panels-figure">
+              <img class="u-max-full-width project-img" src="{{ right_item.thumbnail }}">
+              <figcaption>
+                <a class="button panels-link"
+                   href="{{ url_for('content_page', category=section.name, content=left_item.name) }}">
+                  Project Page
+                </a>
+              </figcaption>
+            </figure>
           </div>
         {% endif %}
       </div>

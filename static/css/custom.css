@@ -25,7 +25,7 @@ body {
 }
 
 img {
-    background: white;
+  background: white;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -104,6 +104,7 @@ Adapted from getskeleton.com
   margin: 0;
   height: 1.6em; /* matches line-height of item */
 }
+
 #back-to-top > .button-primary{
     margin: 0;
     height: 100%;
@@ -111,10 +112,11 @@ Adapted from getskeleton.com
     font-size: inherit;
 }
 
-.navbar {
+.navbar, .navbar-spacer {
     text-align: center;
     background: none;
-    padding: 0.5em 0 0.5em
+    padding: 0.5em 0 0.5em;
+    height: 2.5em;
 }
 
 .navbar-item {
@@ -161,7 +163,19 @@ Adapted from getskeleton.com
     top: 0;
     left: 0;
     background: #fff; }
+  .navbar-spacer {
+    display: none;
+  }
+  .has-docked-nav .navbar-spacer {
+    display: block;
+  }
   .has-docked-nav #back-to-top {
     display: inline-block;
   }
 }
+
+.panels-figure {
+  text-align: center;
+}
+
+.panels_link {}

@@ -1,5 +1,7 @@
-from flask_security import UserMixin, RoleMixin
+from flask_security import UserMixin, RoleMixin, current_user
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.ext.hybrid import hybrid_property
+from utils import encrypt_resource
 
 db = SQLAlchemy()
 
@@ -62,15 +64,25 @@ class Content(db.Model):
     name = db.Column(db.String(80), unique=True, nullable=False)
     content = db.Column(db.String(80))
     format = db.Column(db.String(), default="file")  # file, raw, html, or md
-    thumbnail = db.Column(db.String(80), nullable=True)
     description = db.Column(db.String(256), nullable=True)
+
+    # TODO: use mixin for resources
+    _thumbnail = db.Column('thumbnail', db.String(80), nullable=True)
+
+    @hybrid_property
+    def thumbnail(self):
+        return encrypt_resource(self._thumbnail)
+
+    @thumbnail.setter
+    def thumbnail(self, thumbnail):
+        self._thumbnail = thumbnail
 
     # metadata
     display_type = db.Column(db.String(16))
-    required_roles = db.relationship('Role', secondary='content_roles',
-                                 backref=db.backref('Content', lazy='dynamic'))
+    allowed_roles = db.relationship('Role', secondary='content_roles',
+                                    backref=db.backref('content', lazy='dynamic'))
     categories = db.relationship('Category', secondary='content_categories',
-                                 backref=db.backref('Content', lazy='dynamic'))
+                                 backref=db.backref('content', lazy='dynamic'))
 
 
 class Category(db.Model):

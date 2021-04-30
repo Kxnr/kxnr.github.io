@@ -1,16 +1,19 @@
-
-import flask_login
-import components
 import os
+import itsdangerous
 
-from flask import Flask, render_template, url_for, g
-from flask_security import auth_required, Security, roles_accepted
+# flask and extensions
+from flask import Flask, render_template, url_for, g, send_from_directory, request
+from flask_security import auth_required, Security, roles_accepted, current_user
+from flask_minify import minify
+
+# internal to this app
+import components
 from forms import ExtendedLoginForm, username_mapper, ExtendedTwoFactorSetupForm, ExtendedRegisterForm
 from models import db
 from PyKxnr.config import Config, load_configuration
-from flask_minify import minify
 from cli import content, category
 from datastore import create_user_datastore, create_content_datastore
+from utils import decrypt_resource
 
 
 def split_space(string):
@@ -37,8 +40,6 @@ else:
 # Configuration options that rely on running python
 app.config["SECURITY_USER_IDENTITY_ATTRIBUTES"] = [{"username": {"mapper": username_mapper}}]
 
-
-
 # initialize app and database
 db.init_app(app)
 security = Security(app, create_user_datastore(), login_form=ExtendedLoginForm,
@@ -50,19 +51,31 @@ content_datastore = create_content_datastore()
 
 @app.route('/')
 def home():
-    feature = content_datastore.find_content(name='About Me', user=flask_login.current_user, one=True)
-    previews = content_datastore.find_content(categories='Featured Projects')
-    additional_links = [("Gallery", url_for('gallery')),
+    feature = content_datastore.find_content(name='About Me', one=True)
+    previews = content_datastore.find_category(name='Featured Projects')
+    additional_links = [("Gallery", url_for('category_page', category='Projects')),
                         ("Login", url_for('private'))]
 
     return components.home_page(feature=feature, previews=previews, collection=None, additional_links=additional_links)
 
 
-@app.route('/gallery/')
-def gallery():
-    # category = Category.query.filter_by(name='project').first()
-    category = content_datastore.find_content(categories='project')
+@app.route('/resource/<encrypted>')
+def download_resource(encrypted):
+    basename, filename = os.path.split(decrypt_resource(encrypted, request.args.get('access')))
+    return send_from_directory(os.path.join(app.config.get("FILE_ROOT") or '', basename), filename)
+
+
+@app.route('/<string:category>/')
+def category_page(category):
+    category = content_datastore.find_category(name=category)
     return components.gallery_page(category)
+
+
+@app.route('/<string:category>/<string:content>')
+def content_page(category, content):
+    content = content_datastore.find_content(categories=[category], name=content)
+    # TODO: category breadcrumbs or somesuch?
+    return components.article_page(content)
 
 
 @app.route('/private')

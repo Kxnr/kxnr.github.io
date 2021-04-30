@@ -46,7 +46,7 @@ def category():
 @commit
 def content_creator(name, content, description, **kwargs):
     kwargs["display_type"] = kwargs.pop("display")
-    kwargs["required_roles"] = [_security_datastore.find_role(r) for r in kwargs.pop("role")]
+    kwargs["allowed_roles"] = [_security_datastore.find_role(r) for r in kwargs.pop("role")]
     kwargs["categories"] = [_datastore.find_category(c) for c in kwargs.pop("category")]
 
     """Add content to content database"""
@@ -116,12 +116,12 @@ def category_creator(category, **kwargs):
 
 @category.command("add")
 @click.argument("category")
-@click.argument("article")
+@click.argument("content")
 @with_appcontext
 @commit
 def category_adder(category, content):
-    content_obj = _datastore.find_content(name=content)
-    if content_obj is not None:
+    content_obj = _datastore.find_content(name=content, one=True)
+    if content_obj is None:
         raise click.UsageError("Cannot find content")
 
     category_obj = _datastore.find_category(name=category)

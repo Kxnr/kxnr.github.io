@@ -1,8 +1,9 @@
 import flask
 from flask_security.datastore import Datastore, SQLAlchemyDatastore, SQLAlchemyUserDatastore
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import joinedload, lazyload
+import flask_security
 # from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import and_, true
+from sqlalchemy import and_, or_, true
 from models import User, Role, Content, Category, db
 from werkzeug.local import LocalProxy
 
@@ -34,31 +35,27 @@ class SQLAlchemyContentDatastore(SQLAlchemyDatastore, Datastore):
         self.category_model = category_model
         SQLAlchemyDatastore.__init__(self, db)
 
-    def find_content(self, user=None, one=False, **kwargs):
+    def find_content(self, one=False, **kwargs):
         '''
-
-         Note: this doesn't use the sensible default of only retrieving columns without
-               permissions restrictions unless a user is passed in due to the implementation
-               of the cli--this should be fixed once the query is functioning properly
-
         :param user:
         :param kwargs:
         :return:
         '''
 
         query = self.content_model.query
-        query = query.options(joinedload("categories")).options(joinedload("required_roles"))
-        # if this doesn't work, most likely need to use relational algebra to divide by user.roles
+        query = query.options(joinedload("categories")).options(joinedload("allowed_roles"))
 
-        # TODO
+        user = flask_security.current_user
+        if user:
+            kwargs["roles"] = kwargs.get("roles", []) + user.roles
+            query.filter(or_(self.content_model.allowed_roles.contains(r) for r in kwargs.pop("roles")))
+
         if "categories" in kwargs:
-            kwargs.pop("categories")
-
-        if "required_roles" in kwargs:
-            kwargs.pop("required_roles")
+            # allow different kwargs for find_categories
+            kwargs["categories"] = [self.find_category(name=c) if isinstance(c, str) else c for c in kwargs["categories"]]
+            query = query.filter(and_(self.content_model.categories.contains(c) for c in kwargs.pop("categories")))
 
         query = query.filter_by(**kwargs)
-            # .where(and_(*[r.in_(self.content_model.required_roles) for r in (user.roles if user else [])]))
 
         if one:
             return query.first()
@@ -66,8 +63,7 @@ class SQLAlchemyContentDatastore(SQLAlchemyDatastore, Datastore):
             return query.all()
 
     def find_category(self, **kwargs):
-        cat = self.category_model.query.filter_by(**kwargs).first()
-        return cat
+        return self.category_model.query.options(lazyload("content")).filter_by(**kwargs).first()
 
     def create_content(self, name, content, description, **kwargs):
         content_obj = self.find_content(name=name)
@@ -92,7 +88,7 @@ class SQLAlchemyContentDatastore(SQLAlchemyDatastore, Datastore):
         if cat_obj is not None:
             return False
 
-        self.put(self.category_model(category=category,
+        self.put(self.category_model(name=category,
                                      description=description))
         return True
 

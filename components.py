@@ -37,7 +37,7 @@ def gallery_page(category: str):
 
 
 def article_page(article: Content):
-    return render_template("pages/article.html")
+    return render_template("pages/feature.html")
 
 
 ##########
