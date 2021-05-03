@@ -53,7 +53,7 @@ content_datastore = create_content_datastore()
 def home():
     feature = content_datastore.find_content(name='About Me', one=True)
     previews = content_datastore.find_category(name='Featured Projects')
-    additional_links = [("Gallery", url_for('category_page', category='Projects')),
+    additional_links = [("Github",  "github.com/Kxnr")),
                         ("Login", url_for('private'))]
 
     return components.home_page(feature=feature, previews=previews, collection=None, additional_links=additional_links)
