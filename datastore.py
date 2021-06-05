@@ -74,7 +74,15 @@ class SQLAlchemyContentDatastore(SQLAlchemyDatastore, Datastore):
         kwargs["content"] = content
         kwargs["description"] = description
 
-        self.put(self.content_model(**kwargs))
+        thumbnail = None
+        if "thumbnail" in kwargs:
+            # TODO: this is pretty inelegant, and suggests a need for clarification
+            # of model vs datastore
+            thumbnail = kwargs.pop("thumbnail")
+
+        row = self.content_model(**kwargs)
+        row.thumbnail = thumbnail
+        self.put(row)
         return True
 
     def update_content(self, entry, **kwargs):
@@ -90,6 +98,12 @@ class SQLAlchemyContentDatastore(SQLAlchemyDatastore, Datastore):
 
         self.put(self.category_model(name=category,
                                      description=description))
+        return True
+
+    def update_category(self, entry, **kwargs):
+        for k, v in kwargs.items():
+            setattr(entry, k, v)
+        self.put(entry)
         return True
 
     def add_content_to_category(self, content, category):

@@ -47,7 +47,7 @@ def category():
 def content_creator(name, content, description, **kwargs):
     kwargs["display_type"] = kwargs.pop("display")
     kwargs["allowed_roles"] = [_security_datastore.find_role(r) for r in kwargs.pop("role")]
-    kwargs["categories"] = [_datastore.find_category(c) for c in kwargs.pop("category")]
+    kwargs["categories"] = [_datastore.find_category(name=c) for c in kwargs.pop("category")]
 
     """Add content to content database"""
     if _datastore.create_content(name, content, description, **kwargs):
@@ -56,7 +56,7 @@ def content_creator(name, content, description, **kwargs):
             fg="green",
         )
     else:
-        raise click.UsageError("Cannot to add content")
+        raise click.UsageError("Cannot add content")
 
 
 @content.command("edit")
@@ -112,6 +112,22 @@ def category_creator(category, **kwargs):
         )
     else:
         raise click.UsageError("Cannot create category")
+
+@category.command("edit")
+@click.argument("category")
+@click.option("--description", default=None)
+@with_appcontext
+@commit
+def category_editory(category, **kwargs):
+    """Create new category entry with optional description"""
+    category_obj = _datastore.find_category(name=category)
+    if _datastore.update_category(category_obj, **kwargs):
+        click.secho(
+            f'Category "{category}" updated successfully',
+            fg="green",
+        )
+    else:
+        raise click.UsageError("Cannot update category")
 
 
 @category.command("add")
