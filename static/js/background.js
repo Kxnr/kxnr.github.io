@@ -18,6 +18,7 @@
             particleAlpha = .15,
                     t = 0;
 
+    // equivalent to 'ready'
     $(() => {
                 $(window).resize(onResize);
                 $(window).scroll(onScroll);

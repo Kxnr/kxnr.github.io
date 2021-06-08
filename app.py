@@ -11,7 +11,7 @@ import components
 from forms import ExtendedLoginForm, username_mapper, ExtendedTwoFactorSetupForm, ExtendedRegisterForm
 from models import db
 from PyKxnr.config import Config, load_configuration
-from cli import content, category
+from cli import content, category, server
 from datastore import create_user_datastore, create_content_datastore
 from utils import decrypt_resource
 
@@ -24,7 +24,9 @@ app = Flask(__name__)
 minify(app=app, html=True, js=True, cssless=True)
 app.cli.add_command(content, "content")
 app.cli.add_command(category, "category")
-app.jinja_options['extensions'].append('jinja2.ext.do')
+app.cli.add_command(server, "server")
+
+app.jinja_env.add_extension('jinja2.ext.do')
 app.jinja_env.filters['split_space'] = split_space
 
 # Load configuration from file
@@ -36,6 +38,7 @@ if app.config["ENV"] == "production":
     app.config.update(Config.production.freeze())
 else:
     app.config.update(Config.development.freeze())
+    # TODO: init in memory db
 
 # Configuration options that rely on running python
 app.config["SECURITY_USER_IDENTITY_ATTRIBUTES"] = [{"username": {"mapper": username_mapper}}]
@@ -73,7 +76,7 @@ def category_page(category):
 
 @app.route('/<string:category>/<string:content>')
 def content_page(category, content):
-    content = content_datastore.find_content(categories=[category], name=content)
+    content = content_datastore.find_content(categories=[category], name=content, one=True)
     # TODO: category breadcrumbs or somesuch?
     return components.article_page(content)
 
@@ -82,7 +85,6 @@ def content_page(category, content):
 @auth_required()
 def private():
     return "Logged In"
-
 
 if __name__ == "__main__":
     app.run()
