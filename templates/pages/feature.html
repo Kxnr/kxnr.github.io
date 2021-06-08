@@ -1,10 +1,15 @@
 {% extends "components/base.html" %}
+{% import "components/article.html" as article %}
+{% import "components/pdf.html" as pdf %}
 
 {% block content %}
 <div class="container section">
-  <div class="row">
-    <h2 class="full-width section-heading">coming soon!</h2>
+    <h2 class="u-full-width section-heading">coming soon!</h2>
     <!--   todo: back to home  -->
-  </div>
+    {%- if feature.format == 'pdf' -%}
+        {{ pdf.render(feature) }}
+    {%- else -%}
+        {{ article.render(feature) }}
+    {%- endif -%}}
 </div>
 {% endblock %}
