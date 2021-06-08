@@ -1,11 +1,9 @@
 {% macro render(section) %}
-  <div class="container">
-    <div id="{{ section.id }}" class="section">
-      {# section.name | lower | split_space | join('-') #}
-      <h3 class="section-heading">{{ section.name }}</h3>
-      <div class="content">
+<!-- TODO: move containing divs/header format to composing page-->
+<div id="{{ section.id }}" class="container section">
+    <h3 class="section-heading">{{ section.name }}</h3>
+    <div class="content u-full-width">
         {{ section.content | safe }}
-      </div>
     </div>
-  </div>
+</div>
 {% endmacro %}

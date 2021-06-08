@@ -2,6 +2,7 @@ from markdown import markdown
 from models import Category, Content, db
 from jinja2 import Markup
 from flask import render_template, url_for
+from utils import encrypt_resource
 import os
 
 # TODO: enhancement: make navbar support popovers for subsection
@@ -23,7 +24,7 @@ def home_page(feature: Content, previews: Category = None,
     '''
 
     if feature:
-        feature.content = _load_article(feature.content, feature.format)
+        feature.content = _load_article(feature.content, format=feature.format)
 
     return render_template("pages/home.html",
                            feature=feature,
@@ -33,11 +34,13 @@ def home_page(feature: Content, previews: Category = None,
 
 
 def gallery_page(category: str):
+    # TODO
     return render_template("pages/gallery.html")
 
 
 def article_page(article: Content):
-    return render_template("pages/feature.html")
+    article.content = _load_article(article.content, format=article.format)
+    return render_template("pages/feature.html", feature=article)
 
 
 ##########
@@ -71,5 +74,8 @@ def _load_article(article, format="md"):
 
     if format == "raw":
         return article
+
+    if format == "pdf":
+        return f'<embed src="{encrypt_resource(article)}" type="application/pdf">'
 
     raise NotImplementedError(f"format {format} not supported")

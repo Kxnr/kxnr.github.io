@@ -5,6 +5,7 @@ from flask_security import login_user, logout_user
 import flask_security
 import flask.cli
 from datastore import create_user_datastore, create_content_datastore
+from models import db
 
 with_appcontext = flask.cli.with_appcontext
 _datastore = create_content_datastore()
@@ -27,6 +28,16 @@ def content():
 @click.group()
 def category():
     """Category commands."""
+
+@click.group()
+def server():
+    """Server commands"""
+
+@server.command("init")
+@with_appcontext
+@commit
+def init():
+    db.create_all()
 
 ##########
 # Content Commands

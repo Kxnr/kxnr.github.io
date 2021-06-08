@@ -20,6 +20,12 @@ overlays: 100+
 .container {
 }
 
+.button.button-primary:disabled,
+.button.button-primary[disabled]{
+    background-color: #8888;
+    border-color: #8888;
+}
+
 body {
   font-family: Ostrich, "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -39,8 +45,20 @@ ul, ol {
 p {
   font-family: Baskerville;
   margin-bottom: 0;
+    text-indent: 4em;
 }
 
+embed {
+    width: inherit;
+    height: inherit;
+    margin: 0 auto;
+}
+
+.centered {
+    margin: auto;
+    text-align: center;
+    width: inherit;
+}
 
 .section {
     margin-bottom: 1.2rem;
@@ -65,7 +83,7 @@ p {
 
 .content {
   font-family: Baskerville;
-  text-indent: 4em;
+  /* text-indent: 4em; */
   text-align: left;
   padding-bottom: .5em;
   padding-top: .5em;
