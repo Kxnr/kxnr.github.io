@@ -83,6 +83,6 @@ def _load_article(article, format="md"):
         return article
 
     if format == "pdf":
-        return f'<embed src="{encrypt_resource(article)}" type="application/pdf">'
+        return encrypt_resource(article)
 
     raise NotImplementedError(f"format {format} not supported")

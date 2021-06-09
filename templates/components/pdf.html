@@ -3,7 +3,7 @@
     <div class="content u-full-width">
         <canvas id="{{section.id}}-canvas"></canvas>
         <script>
-            $(() => new pdf.view('{{section.content}}', $('#{{section.id}}-canvas'), $('#{{section.id}}-next'), $('#{{section.id}}-prev')));
+            $(() => new pdf.view('{{section.content|safe}}', $('#{{section.id}}-canvas'), $('#{{section.id}}-next'), $('#{{section.id}}-prev')));
         </script>
         <br>
         <div id='{{section.id}}-controls' class="centered">
