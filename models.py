@@ -1,5 +1,6 @@
 from flask_security import UserMixin, RoleMixin, current_user
 from flask_sqlalchemy import SQLAlchemy
+from flask import url_for
 from sqlalchemy.ext.hybrid import hybrid_property
 from utils import encrypt_resource
 
