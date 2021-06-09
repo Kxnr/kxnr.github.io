@@ -13,12 +13,12 @@
 {% block content %}
   <link rel="stylesheet" href="/static/css/pages/home.css" type="text/css">
 
-<!--  additional_links, move to Python?-->
+<!--  additional_links, move to Python? -->
   {% do add_link(additional_links, collection) %}
   {% do add_link(additional_links, preview) %}
   {% do add_link(additional_links, feature) %}
 
-  {{ header.render(additional_links) }}
+  {{ header.render(links) }}
   {{ article.render(feature) if feature }}
   {{ panels.render(previews) if previews }}
   {{ article.render(collection) if collection }}

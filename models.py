@@ -61,7 +61,7 @@ class Content(db.Model):
 
     # display data
     id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(80), nullable=False)
+    name = db.Column(db.String(80), unique=True, nullable=False)
     content = db.Column(db.String(80))
     format = db.Column(db.String(), default="file")  # file, raw, html, or md
     description = db.Column(db.String(256), nullable=True)
@@ -84,9 +84,20 @@ class Content(db.Model):
     categories = db.relationship('Category', secondary='content_categories',
                                  backref=db.backref('content', lazy='dynamic'))
 
+    @property
+    def ref(self):
+        if self.format == "link":
+            return self.content
+        else:
+            return url_for("content_page", content=self.name)
+
 
 class Category(db.Model):
     __tablename__ = "category"
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
     description = db.Column(db.String(256), nullable=True)
+
+    @property
+    def ref(self):
+        return url_for("category_page", category=self.name)

@@ -14,7 +14,7 @@ import os
 
 
 def home_page(feature: Content, previews: Category = None,
-              collection: Content = None, additional_links: list[tuple[str, str]] = []):
+              collection: Content = None, links: list = []):
     '''
     :param feature: name of article to feature
     :param previews: name of category for tiles
@@ -30,7 +30,7 @@ def home_page(feature: Content, previews: Category = None,
                            feature=feature,
                            previews=previews,
                            collection=collection,
-                           additional_links=additional_links)
+                           links=links)
 
 
 def gallery_page(category: str):
@@ -42,11 +42,18 @@ def article_page(article: Content):
     article.content = _load_article(article.content, format=article.format)
     return render_template("pages/feature.html", feature=article)
 
+def full_header():
+    # TODO: read header links out of a file
+    pass
+
 
 ##########
 # Functions to support subcomponents of page views
 ##########
 
+def _load_header(header_content):
+    # TODO: links as content:, category:, and external:
+    pass
 
 def _load_article(article, format="md"):
     '''

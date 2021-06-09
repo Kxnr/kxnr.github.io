@@ -56,10 +56,12 @@ content_datastore = create_content_datastore()
 def home():
     feature = content_datastore.find_content(name='About Me', one=True)
     previews = content_datastore.find_category(name='Featured Projects')
-    additional_links = [("Github",  "https://github.com/Kxnr"),
-                        ("Login", url_for('private'))]
+    try:
+        links = [(link.ref, link.name) for link in content_datastore.find_category(name='full header').content]
+    except AttributeError:
+        links = []
 
-    return components.home_page(feature=feature, previews=previews, collection=None, additional_links=additional_links)
+    return components.home_page(feature=feature, previews=previews, collection=None, links=links)
 
 
 @app.route('/resource/<encrypted>')
@@ -68,15 +70,15 @@ def download_resource(encrypted):
     return send_from_directory(os.path.join(app.config.get("FILE_ROOT") or '', basename), filename)
 
 
-@app.route('/<string:category>/')
+@app.route('/gallery/<string:category>/')
 def category_page(category):
     category = content_datastore.find_category(name=category)
     return components.gallery_page(category)
 
 
-@app.route('/<string:category>/<string:content>')
-def content_page(category, content):
-    content = content_datastore.find_content(categories=[category], name=content, one=True)
+@app.route('/c/<string:content>')
+def content_page(content):
+    content = content_datastore.find_content(name=content, one=True)
     # TODO: category breadcrumbs or somesuch?
     return components.article_page(content)
 
