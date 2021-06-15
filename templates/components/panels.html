@@ -1,44 +1,41 @@
-{% macro render(section) %}
-  <div class="container">
-    <div id="{{ section.id }}" class="section">
-      <h3 class="section-heading">{{ section.name }}</h3>
-      {% if section.description %}
-        <p class="section-description">{{ section.description }}</p>
-      {% endif %}
-    </div>
+<div class="container">
+  <div id="{{ component.id }}" class="section">
+    <h3 class="section-heading">{{ component.name }}</h3>
+    {% if component.description %}
+      <p class="section-description">{{ component.description }}</p>
+    {% endif %}
   </div>
+</div>
 
-  {% for left_item, right_item in section.content | batch(2, False) %}
-    <div class="container">
-      <div class="row">
-        <div class="one-half column section">
-          <h4 class="section-sub-heading">{{ left_item.name }}</h4>
-          <figure class="panels-figure">
-            <img class="u-max-full-width project-img" src="{{ left_item.thumbnail }}">
-            <figcaption>
-              <a class="button panels-link"
-                 href="{{ url_for('content_page', content=left_item.name) }}">
-                  Project Page
-              </a>
-            </figcaption>
-          </figure>
-        </div>
-        {% if right_item %}
-          <div class="one-half column section">
-            <h4 class="section-sub-heading">{{ right_item.name }}</h4>
-            <figure class="panels-figure">
-              <img class="u-max-full-width project-img" src="{{ right_item.thumbnail }}">
-              <figcaption>
-                <a class="button panels-link"
-                   href="{{ url_for('content_page', content=left_item.name) }}">
-                  Project Page
-                </a>
-              </figcaption>
-            </figure>
-          </div>
-        {% endif %}
-      </div>
+{% for left_item, right_item in component.content | batch(2, False) %}
+<div class="container">
+  <div class="row">
+    <div class="one-half column section">
+      <h4 class="section-sub-heading">{{ left_item.name }}</h4>
+      <figure class="panels-figure">
+        <img class="u-max-full-width project-img" src="{{ left_item.thumbnail }}">
+        <figcaption>
+          <a class="button panels-link"
+             href="{{ url_for('content_page', content=left_item.name) }}">
+            Project Page
+          </a>
+        </figcaption>
+      </figure>
     </div>
-  {% endfor %}
-
-{% endmacro %}
+    {% if right_item %}
+    <div class="one-half column section">
+      <h4 class="section-sub-heading">{{ right_item.name }}</h4>
+      <figure class="panels-figure">
+        <img class="u-max-full-width project-img" src="{{ right_item.thumbnail }}">
+        <figcaption>
+          <a class="button panels-link"
+             href="{{ url_for('content_page', content=left_item.name) }}">
+            Project Page
+          </a>
+        </figcaption>
+      </figure>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endfor %}

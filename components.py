@@ -6,54 +6,57 @@ from utils import encrypt_resource
 import os
 
 # TODO: enhancement: make navbar support popovers for subsection
+render_format = {"article": article,
+                 "gallery": panels,
+                 "pdf": pdf,
+                 "full_header": full_header}
+
+def render_component(component: Content, format=render_format):
+    return formats[component.display_type](component)
 
 ##########
 # functions to accompany each page template and
 # build all required data
 ##########
 
+def article(component: Content):
+    component.content = _load_article(component)
+    return render_template('components/article.html', component)
 
-def home_page(feature: Content, previews: Category = None,
-              collection: Content = None, links: list = []):
-    '''
-    :param feature: name of article to feature
-    :param previews: name of category for tiles
-    :param collection:
-    :param additional_links: additional
-    :return:
-    '''
+def panels(component: Content):
+    return render_template('components/panels.html', component)
 
-    if feature:
-        feature.content = _load_article(feature.content, format=feature.format)
-
-    return render_template("pages/home.html",
-                           feature=feature,
-                           previews=previews,
-                           collection=collection,
-                           links=links)
-
-
-def gallery_page(category: str):
-    # TODO
-    return render_template("pages/gallery.html")
-
-
-def article_page(article: Content):
-    article.content = _load_article(article.content, format=article.format)
-    return render_template("pages/feature.html", feature=article)
-
-def full_header():
-    # TODO: read header links out of a file
+def mini_header(component: Content):
     pass
 
+def full_header(component: Content):
+    component.content = _load_header(component.content, content.format)
+    return render_template('components/full_header.html', component)
+    pass
+
+def pdf(component: Content):
+    # TODO: support pdf links as well as files
+    component.content = encrypt_resource(component.content)
+    return render_template('components/pdf.html', component)
+
+def footer():
+    pass
 
 ##########
 # Functions to support subcomponents of page views
 ##########
 
-def _load_header(header_content):
-    # TODO: links as content:, category:, and external:
-    pass
+def _load_header(header, format='category'):
+    if format == 'category':
+        return = [(link.ref, link.name) for link in content_datastore.find_category(name=header.content).content]
+
+    raise NotImplementedError(f"format {format} not supported")
+
+def _load_gallery(gallery, format='category'):
+    if format == 'category':
+        return datastore.find_category(name=gallery.content)
+
+    raise NotImplementedError(f"format {format} not supported")
 
 def _load_article(article, format="md"):
     '''
@@ -66,7 +69,6 @@ def _load_article(article, format="md"):
     # TODO: rectify embedded images and links
 
     if format == "file":
-        # TODO split ext
         _, format = os.path.splitext(article)
         format = format[1:] # split decimal
 
@@ -81,8 +83,5 @@ def _load_article(article, format="md"):
 
     if format == "raw":
         return article
-
-    if format == "pdf":
-        return encrypt_resource(article)
 
     raise NotImplementedError(f"format {format} not supported")

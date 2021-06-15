@@ -1,4 +1,3 @@
-{% macro render(link_list) %}
 <div id="header" class="container section header">
   <script src="/static/js/navbar.js"></script>
 
@@ -11,8 +10,7 @@
       <ul class="navbar-list">
 
         {% for ref, text in link_list %}
-<!--        TODO: on page links-->
-        <li class="navbar-item"><a href="{{ ref }}" class="navbar-link">{{ text }}</a></li>
+          <li class="navbar-item"><a href="{{ ref }}" class="navbar-link">{{ text }}</a></li>
         {% endfor %}
 
         <li id="back-to-top" class="navbar-item"><button onclick="navbar.scrollToTop()" class="button-primary" title="Back to Top">Top</button></li>
@@ -20,4 +18,3 @@
     </div>
   </div>
 </div>
-{% endmacro %}

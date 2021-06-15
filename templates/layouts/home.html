@@ -1,0 +1,27 @@
+{% extends "components/base.html" %}
+
+{% macro add_link(links, new_link) %}
+  {% if new_link %}
+    {% do links.insert(0, ("#" ~ new_link.id, new_link.name)) %}
+  {% endif %}
+{% endmacro %}
+
+{% block header %}
+  {{ header | safe }}
+{% endblock %}
+
+{% block content %}
+  <link rel="stylesheet" href="/static/css/pages/home.css" type="text/css">
+
+<!-- TODO: extra links, move on page links to python -->
+  {% do add_link(links, collection) %}
+  {% do add_link(links, preview) %}
+
+  {{ feature | safe }}
+  {{ preview | safe }}
+
+  {% for extra in extras %}
+    {{ extra | safe }}
+  {% endfor %}
+
+{% endblock %}

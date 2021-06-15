@@ -79,7 +79,6 @@ def content_creator(name, content, description, **kwargs):
 @click.option("--thumbnail", default="")
 @click.option("--display", default="")
 @click.option("--role", default=[], multiple=True)
-@click.option("--category", default=[], multiple=True)
 @with_appcontext
 @commit
 def content_editor(name, **kwargs):
@@ -108,7 +107,6 @@ def content_editor(name, **kwargs):
 # Category Commands
 ##########
 
-
 @category.command("create")
 @click.argument("category")
 @click.option("--description", default=None)
@@ -127,6 +125,7 @@ def category_creator(category, **kwargs):
 @category.command("edit")
 @click.argument("category")
 @click.option("--description", default=None)
+@click.option("--name", default="")
 @with_appcontext
 @commit
 def category_editory(category, **kwargs):
@@ -144,9 +143,10 @@ def category_editory(category, **kwargs):
 @category.command("add")
 @click.argument("category")
 @click.argument("content")
+@click.argument("priority")
 @with_appcontext
 @commit
-def category_adder(category, content):
+def category_adder(category, content, priority):
     content_obj = _datastore.find_content(name=content, one=True)
     if content_obj is None:
         raise click.UsageError("Cannot find content")
@@ -155,7 +155,7 @@ def category_adder(category, content):
     if category_obj is None:
         raise click.UsageError("Cannot find category")
 
-    if _datastore.add_content_to_category(content_obj, category_obj):
+    if _datastore.add_content_to_category(content_obj, category_obj, priority=priority):
         click.secho(
             f'Content "{content}" added to "{category}" successfully',
             fg="green",

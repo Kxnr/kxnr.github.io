@@ -1,9 +1,6 @@
-{% macro render(section) %}
-<!-- TODO: move containing divs/header format to composing page-->
-<div id="{{ section.id }}" class="container section">
-    <h3 class="section-heading">{{ section.name }}</h3>
+<div id="{{ component.id }}" class="container section">
+    <h3 class="section-heading">{{ component.name }}</h3>
     <div class="content u-full-width">
-        {{ section.content | safe }}
+        {{ component.content | safe }}
     </div>
 </div>
-{% endmacro %}

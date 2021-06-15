@@ -2,7 +2,7 @@ import os
 import itsdangerous
 
 # flask and extensions
-from flask import Flask, render_template, url_for, g, send_from_directory, request
+from flask import Flask, url_for, g, send_from_directory, request
 from flask_security import auth_required, Security, roles_accepted, current_user
 from flask_minify import minify
 
@@ -61,26 +61,26 @@ def home():
     except AttributeError:
         links = []
 
-    return components.home_page(feature=feature, previews=previews, collection=None, links=links)
+    return pages.home_page(feature=feature, previews=previews, collection=None, links=links)
 
 
-@app.route('/resource/<encrypted>')
+@app.route('/resource/<string:encrypted>')
 def download_resource(encrypted):
     basename, filename = os.path.split(decrypt_resource(encrypted, request.args.get('access')))
     return send_from_directory(os.path.join(app.config.get("FILE_ROOT") or '', basename), filename)
 
 
-@app.route('/gallery/<string:category>/')
-def category_page(category):
-    category = content_datastore.find_category(name=category)
-    return components.gallery_page(category)
+# TODO: render templates with component names as arguments
+@app.route('/gallery/<string:gallery>/')
+def gallery_page(gallery):
+    category = content_datastore.find_content(name=gallery, display_type='gallery', one=True)
+    return pages.feature_page(category)
 
 
-@app.route('/c/<string:content>')
+@app.route('/article/<string:article>')
 def content_page(content):
-    content = content_datastore.find_content(name=content, one=True)
-    # TODO: category breadcrumbs or somesuch?
-    return components.article_page(content)
+    content = content_datastore.find_content(name=content, display_type='article', one=True)
+    return pages.feature_page(content)
 
 
 @app.route('/private')

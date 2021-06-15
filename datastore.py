@@ -108,6 +108,7 @@ class SQLAlchemyContentDatastore(SQLAlchemyDatastore, Datastore):
 
     def add_content_to_category(self, content, category):
         if category not in content.categories:
+            # TODO: add priority to relationship
             content.categories.append(category)
             self.put(content)
             return True
