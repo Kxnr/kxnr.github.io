@@ -1,43 +1,39 @@
 from markdown import markdown
+from markdown.extensions import Extension as MarkdownExtension
 from models import Category, Content, db
 from jinja2 import Markup
 from flask import render_template, url_for
 from utils import encrypt_resource
+import xml.etree.ElementTree as ElementTree
 import os
-
-# TODO: enhancement: make navbar support popovers for subsection
-render_format = {"article": article,
-                 "gallery": panels,
-                 "pdf": pdf,
-                 "full_header": full_header}
-
-def render_component(component: Content, format=render_format):
-    return formats[component.display_type](component)
+from urllib.parse import urlparse
+from utils import encrypt_resource
 
 ##########
 # functions to accompany each page template and
 # build all required data
 ##########
+# TODO: enhancement: make navbar support popovers for subsection
 
 def article(component: Content):
-    component.content = _load_article(component)
-    return render_template('components/article.html', component)
+    component.content = _load_article(component.content, format=component.format)
+    return render_template('components/article.html', component=component)
 
 def panels(component: Content):
-    return render_template('components/panels.html', component)
+    component.content = _load_panels(component.content, format=component.format)
+    return render_template('components/panels.html', component=component)
 
 def mini_header(component: Content):
     pass
 
 def full_header(component: Content):
-    component.content = _load_header(component.content, content.format)
-    return render_template('components/full_header.html', component)
-    pass
+    component.content = _load_header(component.content, format=component.format)
+    return render_template('components/full_header.html', component=component)
 
 def pdf(component: Content):
     # TODO: support pdf links as well as files
     component.content = encrypt_resource(component.content)
-    return render_template('components/pdf.html', component)
+    return render_template('components/pdf.html', component=component)
 
 def footer():
     pass
@@ -48,13 +44,13 @@ def footer():
 
 def _load_header(header, format='category'):
     if format == 'category':
-        return = [(link.ref, link.name) for link in content_datastore.find_category(name=header.content).content]
+        return [(link.ref, link.name) for link in content_datastore.find_category(name=header.content).content]
 
     raise NotImplementedError(f"format {format} not supported")
 
-def _load_gallery(gallery, format='category'):
+def _load_panels(panels, format='category'):
     if format == 'category':
-        return datastore.find_category(name=gallery.content)
+        return datastore.find_category(name=panels.content)
 
     raise NotImplementedError(f"format {format} not supported")
 
@@ -76,7 +72,7 @@ def _load_article(article, format="md"):
             article = f.read()
 
     if format == "md":
-        return Markup(markdown(article, output_format="html5", extensions=["smarty"]))
+        return Markup(markdown(article, output_format="html5", extensions=["smarty", "attr_list", MyExtension()]))
 
     if format == "html":
         return Markup(article)
@@ -85,3 +81,49 @@ def _load_article(article, format="md"):
         return article
 
     raise NotImplementedError(f"format {format} not supported")
+
+
+##########
+# Extensions to markdown
+##########
+class MyExtension(MarkdownExtension):
+    def extendMarkdown(self, md):
+        md.treeprocessors.register(LinkFixer(md), "link_fixer", 1)
+        md.treeprocessors.register(ImageFormatter(md), "image_formatter", 1)
+
+class ImageFormatter:
+    def __init__(self, md):
+        self.md = md
+
+    def run(self, doc_tree: ElementTree):
+        images = doc_tree.findall(f".//*img")
+        for img in images:
+            # this uses cascading to determine what is applied--md-image should
+            # be described later in the stylesheet than other relevant image styles
+            # this will only be applied to images derived from ![]() tags, not raw html
+            img.set('class', " ".join((img.get('class') or '', "md-image")))
+
+class LinkFixer:
+    def __init__(self, md):
+        self.md = md
+
+    def run(self, doc_tree: ElementTree):
+        def _attribute(attr):
+            # get all elements and descendents with attr
+            links = doc_tree.findall(f".//*[@{attr}]")
+
+            for element in links:
+                link = element.get(attr)
+
+                if urlparse(link).scheme in ('http', 'https'):
+                    pass
+                elif os.path.exists(link):
+                    link = encrypt_resource(link)
+                else:
+                    # TODO
+                    raise Exception()
+
+                element.set(attr, link)
+
+        _attribute('src')
+        _attribute('href')

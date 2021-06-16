@@ -14,19 +14,25 @@ from PyKxnr.config import Config, load_configuration
 from cli import content, category, server
 from datastore import create_user_datastore, create_content_datastore
 from utils import decrypt_resource
-
-
-def split_space(string):
-    return string.strip().split()
+import pages
+from components import *
 
 
 app = Flask(__name__)
+
+##########
+# Configuration
+##########
 minify(app=app, html=True, js=True, cssless=True)
 app.cli.add_command(content, "content")
 app.cli.add_command(category, "category")
 app.cli.add_command(server, "server")
 
 app.jinja_env.add_extension('jinja2.ext.do')
+
+def split_space(string):
+    return string.strip().split()
+
 app.jinja_env.filters['split_space'] = split_space
 
 # Load configuration from file
@@ -42,8 +48,14 @@ else:
 
 # Configuration options that rely on running python
 app.config["SECURITY_USER_IDENTITY_ATTRIBUTES"] = [{"username": {"mapper": username_mapper}}]
+app.config["render_format"] =  {"article": article,
+                                 "gallery": panels,
+                                 "pdf": pdf,
+                                 "full_header": full_header}
 
-# initialize app and database
+##########
+# Initialization
+##########
 db.init_app(app)
 security = Security(app, create_user_datastore(), login_form=ExtendedLoginForm,
                     two_factor_setup_form=ExtendedTwoFactorSetupForm,
@@ -51,17 +63,16 @@ security = Security(app, create_user_datastore(), login_form=ExtendedLoginForm,
 
 content_datastore = create_content_datastore()
 
-
+##########
+# Routes
+##########
 @app.route('/')
 def home():
     feature = content_datastore.find_content(name='About Me', one=True)
-    previews = content_datastore.find_category(name='Featured Projects')
-    try:
-        links = [(link.ref, link.name) for link in content_datastore.find_category(name='full header').content]
-    except AttributeError:
-        links = []
+    previews = content_datastore.find_content(name='Featured Projects', one=True)
+    header =    content_datastore.find_content(name='full header', one=True)
 
-    return pages.home_page(feature=feature, previews=previews, collection=None, links=links)
+    return pages.home_page(header, feature, previews)
 
 
 @app.route('/resource/<string:encrypted>')
@@ -70,16 +81,9 @@ def download_resource(encrypted):
     return send_from_directory(os.path.join(app.config.get("FILE_ROOT") or '', basename), filename)
 
 
-# TODO: render templates with component names as arguments
-@app.route('/gallery/<string:gallery>/')
-def gallery_page(gallery):
-    category = content_datastore.find_content(name=gallery, display_type='gallery', one=True)
-    return pages.feature_page(category)
-
-
-@app.route('/article/<string:article>')
-def content_page(content):
-    content = content_datastore.find_content(name=content, display_type='article', one=True)
+@app.route('/<string:display_type>/<string:content>')
+def content_page(display_type, content):
+    content = content_datastore.find_content(name=content, display_type=display_type, one=True)
     return pages.feature_page(content)
 
 
@@ -87,6 +91,3 @@ def content_page(content):
 @auth_required()
 def private():
     return "Logged In"
-
-if __name__ == "__main__":
-    app.run()

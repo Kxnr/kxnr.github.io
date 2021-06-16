@@ -93,6 +93,12 @@ embed {
   padding-right: 1em;
 }
 
+.md-image {
+    max-width: 100%;
+    display: block;
+    padding: 1em;
+}
+
 /*
 Parallax background
 */

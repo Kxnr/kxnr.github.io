@@ -72,6 +72,7 @@ class Content(db.Model):
 
     @hybrid_property
     def thumbnail(self):
+        # TODO: allow thumbnails to be linked from other locations
         return encrypt_resource(self._thumbnail)
 
     @thumbnail.setter
@@ -84,13 +85,6 @@ class Content(db.Model):
                                     backref=db.backref('content', lazy='dynamic'))
     categories = db.relationship('Category', secondary='content_categories',
                                  backref=db.backref('content', lazy='dynamic'))
-
-    @property
-    def ref(self):
-        if self.format == "link":
-            return self.content
-        else:
-            return url_for("content_page", content=self.name)
 
 
 class Category(db.Model):
