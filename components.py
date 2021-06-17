@@ -25,6 +25,7 @@ def article(component: Content):
 def panels(component: Content):
     panels = _load_panels(component.content, format=component.format)
     panels.id = component.id # update id for on page links
+
     return render_template('components/panels.html', component=panels)
 
 def mini_header(component: Content):
@@ -34,6 +35,7 @@ def full_header(components: list[Content], on_page=[]):
     # TODO: always contains login
     # TODO: popover, deal with overflow, group pages
     links = [(f'#{link.id}', link.name) if link in on_page else (link.ref, link.name) for link in components]
+    links.append((url_for('private'), 'Login'))
 
     return render_template('components/full_header.html', links=links)
 

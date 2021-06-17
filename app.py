@@ -77,7 +77,7 @@ def default_error(error):
 @app.route('/')
 def home():
     feature = content_datastore.find_content(name='About Me', one=True)
-    previews = content_datastore.find_content(name='Featured Projects', one=True)
+    previews = content_datastore.find_content(name='Projects', one=True)
     resume =    content_datastore.find_content(name='Resume', one=True)
     github =    content_datastore.find_content(name='Github', one=True)
 
