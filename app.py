@@ -15,7 +15,7 @@ from cli import content, category, server
 from datastore import create_user_datastore, create_content_datastore
 from utils import decrypt_resource
 import pages
-from components import *
+import components
 
 
 app = Flask(__name__)
@@ -48,10 +48,10 @@ else:
 
 # Configuration options that rely on running python
 app.config["SECURITY_USER_IDENTITY_ATTRIBUTES"] = [{"username": {"mapper": username_mapper}}]
-app.config["render_format"] =  {"article": article,
-                                 "gallery": panels,
-                                 "pdf": pdf,
-                                 "full_header": full_header}
+app.config["render_format"] =  {"article": components.article,
+                                "gallery": components.panels,
+                                "pdf": components.pdf,
+                                "full_header": components.full_header}
 
 ##########
 # Initialization
@@ -64,15 +64,24 @@ security = Security(app, create_user_datastore(), login_form=ExtendedLoginForm,
 content_datastore = create_content_datastore()
 
 ##########
+# Exception/Error handling
+##########
+
+@app.errorhandler(Exception)
+def default_error(error):
+    return pages.error_page(error), 404
+
+##########
 # Routes
 ##########
 @app.route('/')
 def home():
     feature = content_datastore.find_content(name='About Me', one=True)
     previews = content_datastore.find_content(name='Featured Projects', one=True)
-    header =    content_datastore.find_content(name='full header', one=True)
+    resume =    content_datastore.find_content(name='Resume', one=True)
+    github =    content_datastore.find_content(name='Github', one=True)
 
-    return pages.home_page(header, feature, previews)
+    return pages.home_page([feature, previews, resume, github], feature, previews)
 
 
 @app.route('/resource/<string:encrypted>')

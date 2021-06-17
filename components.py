@@ -8,6 +8,9 @@ import xml.etree.ElementTree as ElementTree
 import os
 from urllib.parse import urlparse
 from utils import encrypt_resource
+from datastore import create_content_datastore
+
+_datastore = create_content_datastore()
 
 ##########
 # functions to accompany each page template and
@@ -20,15 +23,19 @@ def article(component: Content):
     return render_template('components/article.html', component=component)
 
 def panels(component: Content):
-    component.content = _load_panels(component.content, format=component.format)
-    return render_template('components/panels.html', component=component)
+    panels = _load_panels(component.content, format=component.format)
+    panels.id = component.id # update id for on page links
+    return render_template('components/panels.html', component=panels)
 
 def mini_header(component: Content):
     pass
 
-def full_header(component: Content):
-    component.content = _load_header(component.content, format=component.format)
-    return render_template('components/full_header.html', component=component)
+def full_header(components: list[Content], on_page=[]):
+    # TODO: always contains login
+    # TODO: popover, deal with overflow, group pages
+    links = [(f'#{link.id}', link.name) if link in on_page else (link.ref, link.name) for link in components]
+
+    return render_template('components/full_header.html', links=links)
 
 def pdf(component: Content):
     # TODO: support pdf links as well as files
@@ -38,19 +45,17 @@ def pdf(component: Content):
 def footer():
     pass
 
+def error(error):
+    # TODO
+    return render_template('components/error.html', error=error)
+
 ##########
 # Functions to support subcomponents of page views
 ##########
 
-def _load_header(header, format='category'):
-    if format == 'category':
-        return [(link.ref, link.name) for link in content_datastore.find_category(name=header.content).content]
-
-    raise NotImplementedError(f"format {format} not supported")
-
 def _load_panels(panels, format='category'):
     if format == 'category':
-        return datastore.find_category(name=panels.content)
+        return _datastore.find_category(name=panels)
 
     raise NotImplementedError(f"format {format} not supported")
 

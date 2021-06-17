@@ -84,7 +84,14 @@ class Content(db.Model):
     allowed_roles = db.relationship('Role', secondary='content_roles',
                                     backref=db.backref('content', lazy='dynamic'))
     categories = db.relationship('Category', secondary='content_categories',
-                                 backref=db.backref('content', lazy='dynamic'))
+                                 backref=db.backref('content', lazy='joined'))
+
+    @property
+    def ref(self):
+        if self.display_type == "link":
+            return self.content
+        else:
+            return url_for("content_page", display_type=self.display_type, content=self.name)
 
 
 class Category(db.Model):
@@ -92,7 +99,3 @@ class Category(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
     description = db.Column(db.String(256), nullable=True)
-
-    @property
-    def ref(self):
-        return url_for("category_page", category=self.name)

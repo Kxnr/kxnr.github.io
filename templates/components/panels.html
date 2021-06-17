@@ -16,7 +16,7 @@
         <img class="u-max-full-width project-img" src="{{ left_item.thumbnail }}">
         <figcaption>
           <a class="button panels-link"
-             href="{{ url_for('content_page', content=left_item.name) }}">
+             href="{{ left_item.ref }}">
             Project Page
           </a>
         </figcaption>
@@ -29,7 +29,7 @@
         <img class="u-max-full-width project-img" src="{{ right_item.thumbnail }}">
         <figcaption>
           <a class="button panels-link"
-             href="{{ url_for('content_page', content=left_item.name) }}">
+             href="{{ right_item.ref }}">
             Project Page
           </a>
         </figcaption>

@@ -63,7 +63,7 @@ class SQLAlchemyContentDatastore(SQLAlchemyDatastore, Datastore):
             return query.all()
 
     def find_category(self, **kwargs):
-        return self.category_model.query.options(lazyload("content")).filter_by(**kwargs).first()
+        return self.category_model.query.filter_by(**kwargs).first()
 
     def create_content(self, name, content, description, **kwargs):
         content_obj = self.find_content(name=name)

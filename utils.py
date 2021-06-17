@@ -18,3 +18,16 @@ def decrypt_resource(string, method):
     return itsdangerous.URLSafeSerializer(key, salt=method).loads(string)
 
 
+def add_or_move(lst, item, index):
+    if lst.index(item) == index:
+        return
+
+    try:
+        lst.remove(item)
+    except ValueError:
+        pass
+    finally:
+        lst.insert(index, item)
+
+
+
