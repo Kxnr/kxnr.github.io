@@ -12,6 +12,11 @@
         {% for ref, text in links %}
           <li class="navbar-item"><a href="{{ ref }}" class="navbar-link">{{ text }}</a></li>
         {% endfor %}
+        {% if current_user.is_authenticated %}
+          <li class="navbar-item"><a class="navbar-item" href="{{ url_for("logout") }}">Logout</a></li>
+        {% else %}
+          <li class="navbar-item"><a class="navbar-item" href="{{ url_for("login") }}">Login</a></li>
+        {% endif %}
 
         <li id="back-to-top" class="navbar-item"><button onclick="navbar.scrollToTop()" class="button-primary" title="Back to Top">Top</button></li>
       </ul>

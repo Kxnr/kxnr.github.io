@@ -3,7 +3,7 @@ import itsdangerous
 
 # flask and extensions
 from flask import Flask, url_for, g, send_from_directory, request
-from flask_security import auth_required, Security, roles_accepted, current_user
+from flask_security import auth_required, Security, roles_accepted, current_user, logout_user
 from flask_minify import minify
 
 # internal to this app
@@ -44,14 +44,13 @@ if app.config["ENV"] == "production":
     app.config.update(Config.production.freeze())
 else:
     app.config.update(Config.development.freeze())
-    # TODO: init in memory db
 
 # Configuration options that rely on running python
 app.config["SECURITY_USER_IDENTITY_ATTRIBUTES"] = [{"username": {"mapper": username_mapper}}]
-app.config["render_format"] =  {"article": components.article,
-                                "gallery": components.panels,
-                                "pdf": components.pdf,
-                                "full_header": components.full_header}
+app.config["render_format"] =  {"article": components.Article,
+                                "gallery": components.Panels,
+                                "pdf": components.Pdf,
+                                "full_header": components.FullHeader}
 
 ##########
 # Initialization
@@ -67,9 +66,9 @@ content_datastore = create_content_datastore()
 # Exception/Error handling
 ##########
 
-@app.errorhandler(Exception)
-def default_error(error):
-    return pages.error_page(error), 404
+# @app.errorhandler(Exception)
+# def default_error(error):
+#     return pages.error_page(error), 404
 
 ##########
 # Routes
@@ -92,11 +91,17 @@ def download_resource(encrypted):
 
 @app.route('/<string:display_type>/<string:content>')
 def content_page(display_type, content):
+    # TODO: limit access to content with standalone category
     content = content_datastore.find_content(name=content, display_type=display_type, one=True)
     return pages.feature_page(content)
 
 
-@app.route('/private')
+@app.route('/login')
 @auth_required()
-def private():
+def login():
     return "Logged In"
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return "Logged Out"

@@ -155,7 +155,6 @@
     }
 
     function onScroll(e) {
-        // TODO: parallax scrolling
     }
 
     function onResize(e) {

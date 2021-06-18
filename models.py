@@ -67,17 +67,24 @@ class Content(db.Model):
     format = db.Column(db.String(), default="file")  # file, raw, html, or md
     description = db.Column(db.String(256), nullable=True)
 
-    # TODO: use mixin for resources
     _thumbnail = db.Column('thumbnail', db.String(80), nullable=True)
+    _short_name = db.Column('short_name', db.String(80), nullable=True)
 
     @hybrid_property
     def thumbnail(self):
-        # TODO: allow thumbnails to be linked from other locations
         return encrypt_resource(self._thumbnail)
 
     @thumbnail.setter
     def thumbnail(self, thumbnail):
         self._thumbnail = thumbnail
+
+    @hybrid_property
+    def short_name(self):
+        return self._short_name or self.name
+
+    @short_name.setter
+    def short_name(self, short_name):
+        self._short_name = short_name
 
     # metadata
     display_type = db.Column(db.String(16))
