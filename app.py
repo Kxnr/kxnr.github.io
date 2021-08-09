@@ -10,7 +10,7 @@ from flask_minify import minify
 import components
 from forms import ExtendedLoginForm, username_mapper, ExtendedTwoFactorSetupForm, ExtendedRegisterForm
 from models import db
-from PyKxnr.config import Config, load_configuration
+from pykxnr.config import Config, load_configuration
 from cli import content, category, server
 from datastore import create_user_datastore, create_content_datastore
 from utils import decrypt_resource
@@ -66,9 +66,9 @@ content_datastore = create_content_datastore()
 # Exception/Error handling
 ##########
 
-# @app.errorhandler(Exception)
-# def default_error(error):
-#     return pages.error_page(error), 404
+@app.errorhandler(Exception)
+def default_error(error):
+    return pages.error_page(error), 404
 
 ##########
 # Routes
@@ -91,7 +91,6 @@ def download_resource(encrypted):
 
 @app.route('/<string:display_type>/<string:content>')
 def content_page(display_type, content):
-    # TODO: limit access to content with standalone category
     content = content_datastore.find_content(name=content, display_type=display_type, one=True)
     return pages.feature_page(content)
 

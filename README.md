@@ -52,6 +52,20 @@ default flask and flask security options are expected. Minimally, this repositor
 * SECRET_KEY
 * SECURITY_TOTP_SECRETS
 
+#### Management
+
+Management of website users and content are run through click commands. Available commands can be seen with `flask help`.
+For this project, there are three levels of management available: Content, Category, and Role. The content describes
+individual components along with metadata and can be managed through `flask content` subcommands. 
+
+Categories can be used 
+to control rendering of pages or access to pages. Pages may belong to multiple categories, and all pages in a category may
+be loaded by accessing the category. Categories may also be added as a render option to Content, which will render a preview
+of the pages in the Category. Categories can be modified with `flask category` subcommands. 
+
+Roles control access to Content and are applied as a filter on all queries. Roles are currently exposed through the
+flask-security command line interface, so please check that project for user management commands.
+
 ## Help
 
 Setup is effectively unchanged from flask-security setup, for config options, please see documentation for that project.
