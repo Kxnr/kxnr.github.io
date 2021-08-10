@@ -1,4 +1,6 @@
 <div class="container section">
     <h1 class="centered">Hmm... There doesn't seem to be anything here.</h1>
-    <p>{{ error }}</p>
+    {% if error is defined and error != None %}
+        <p>{{ error }}</p>
+    {% endif %}
 </div>

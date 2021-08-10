@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, current_app
 from models import Content, Category
 from components import error as render_error
 from components import render_content
@@ -15,7 +15,6 @@ def home_page(header: list[Content], feature: Content, previews: Category, extra
     :param additional_links: additional
     :return:
     '''
-
 
     feature = render_content(feature, feature.display_type)
     previews = render_content(previews, previews.display_type)
@@ -43,8 +42,9 @@ def feature_page(feature: Content):
     feature = render_content(feature, feature.display_type)
     return render_template("layouts/feature.html", feature=feature)
 
+
 def error_page(error):
-    error = render_error(error)
+    error = render_error(error) if current_app.config["DEBUG"] else None
     return render_template("layouts/feature.html", feature=error)
 
 

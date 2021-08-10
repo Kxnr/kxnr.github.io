@@ -25,6 +25,9 @@ campaigned for these to be merged into the upstream repositories, though I inten
 * bleach
 * sqlalchemy
 * click
+* email_validator
+* cryptography
+* pyqrcode
 
 #### Javascript
 

@@ -1,13 +1,15 @@
+'''
+
+'''
 import os
-import itsdangerous
 
 # flask and extensions
-from flask import Flask, url_for, g, send_from_directory, request
+from flask import Flask, url_for, g, send_from_directory, request, redirect
 from flask_security import auth_required, Security, roles_accepted, current_user, logout_user
 from flask_minify import minify
+from flask_babel import Babel
 
 # internal to this app
-import components
 from forms import ExtendedLoginForm, username_mapper, ExtendedTwoFactorSetupForm, ExtendedRegisterForm
 from models import db
 from pykxnr.config import Config, load_configuration
@@ -61,11 +63,11 @@ security = Security(app, create_user_datastore(), login_form=ExtendedLoginForm,
                     confirm_register_form=ExtendedRegisterForm)
 
 content_datastore = create_content_datastore()
+babel = Babel(app)
 
 ##########
 # Exception/Error handling
 ##########
-
 @app.errorhandler(Exception)
 def default_error(error):
     return pages.error_page(error), 404
@@ -75,10 +77,10 @@ def default_error(error):
 ##########
 @app.route('/')
 def home():
-    feature = content_datastore.find_content(name='About Me', one=True)
+    feature  = content_datastore.find_content(name='About Me', one=True)
     previews = content_datastore.find_content(name='Projects', one=True)
-    resume =    content_datastore.find_content(name='Resume', one=True)
-    github =    content_datastore.find_content(name='Github', one=True)
+    resume   = content_datastore.find_content(name='Resume', one=True)
+    github   = content_datastore.find_content(name='Github', one=True)
 
     return pages.home_page([feature, previews, resume, github], feature, previews)
 
@@ -100,7 +102,8 @@ def content_page(display_type, content):
 def login():
     return "Logged In"
 
+
 @app.route('/logout')
 def logout():
     logout_user()
-    return "Logged Out"
+    return redirect('/')

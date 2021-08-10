@@ -73,7 +73,7 @@
                 data[px]     = color; // red
                 data[px + 1] = color; // green
                 data[px + 2] = color; // blue
-                data[px + 3] = 255;     // alpha
+                data[px + 3] = 255;   // alpha
             }
         }
 
