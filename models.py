@@ -2,11 +2,29 @@ from flask_security import UserMixin, RoleMixin, current_user
 from flask_sqlalchemy import SQLAlchemy
 from flask import url_for
 from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.orm import with_loader_criteria
+from sqlalchemy import or_, event
 from utils import encrypt_resource
 
 db = SQLAlchemy()
 
-class RoleRequiredMixin():
+
+# TODO: bundle with RoleRequiredMixin
+@event.listens_for(db.session, "do_orm_execute")
+def _do_orm_execute(orm_execute_state):
+    if (
+            orm_execute_state.is_select and
+            not orm_execute_state.is_column_load
+    ):
+        # FIXME: default to false if content has allowed roles and user has none
+        print(Content.allowed_roles)
+        orm_execute_state.statement = orm_execute_state.statement.options(
+            # with_loader_criteria(Content, or_(Content.allowed_roles.contains(r) for r in current_user.roles))
+            with_loader_criteria(Content, or_(current_user.roles.contains(r) for r in Content.allowed_roles))
+        )
+
+
+class RoleRequiredMixin:
     # TODO
     pass
 
