@@ -42,10 +42,6 @@ class SQLAlchemyContentDatastore(SQLAlchemyDatastore, Datastore):
         query = self.content_model.query
         query = query.options(joinedload("categories")).options(joinedload("allowed_roles"))
 
-        user = flask_security.current_user
-        if user:
-            kwargs["roles"] = kwargs.get("roles", []) + user.roles
-            query.filter(or_(self.content_model.allowed_roles.contains(r) for r in kwargs.pop("roles")))
 
         if "categories" in kwargs:
             # allow different kwargs for find_categories

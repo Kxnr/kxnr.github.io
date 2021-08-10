@@ -19,8 +19,11 @@ def decrypt_resource(string, method):
 
 
 def add_or_move(lst, item, index):
-    if lst.index(item) == index:
-        return
+    try:
+        if lst.index(item) == index:
+            return
+    except ValueError:
+        pass
 
     try:
         lst.remove(item)

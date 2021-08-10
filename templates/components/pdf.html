@@ -1,5 +1,5 @@
 <div class="container section">
-    <div class="content u-full-width">
+    <div class="content u-full-width" id="{{component.id}}">
         <canvas id="{{component.id}}-canvas"></canvas>
         <script>
             $(() => new pdf.view('{{component.content|safe}}', $('#{{component.id}}-canvas'), $('#{{component.id}}-next'), $('#{{component.id}}-prev')));
