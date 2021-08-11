@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import url_for
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import with_loader_criteria
-from sqlalchemy import or_, event
+from sqlalchemy import or_, event, any_
 from utils import encrypt_resource
 
 db = SQLAlchemy()
@@ -16,11 +16,10 @@ def _do_orm_execute(orm_execute_state):
             orm_execute_state.is_select and
             not orm_execute_state.is_column_load
     ):
-        # FIXME: default to false if content has allowed roles and user has none
-        print(Content.allowed_roles)
+        # FIXME: functional, but potentially quite slow
         orm_execute_state.statement = orm_execute_state.statement.options(
-            # with_loader_criteria(Content, or_(Content.allowed_roles.contains(r) for r in current_user.roles))
-            with_loader_criteria(Content, or_(current_user.roles.contains(r) for r in Content.allowed_roles))
+            with_loader_criteria(Content, or_(*(Content.allowed_roles.contains(r) for r in current_user.roles),
+                                              ~Content.allowed_roles.any()))
         )
 
 
@@ -107,7 +106,7 @@ class Content(db.Model):
     # metadata
     display_type = db.Column(db.String(16))
     allowed_roles = db.relationship('Role', secondary='content_roles',
-                                    backref=db.backref('content', lazy='dynamic'))
+                                    backref=db.backref('content', lazy='joined'))
     categories = db.relationship('Category', secondary='content_categories',
                                  backref=db.backref('content', lazy='joined'))
 
