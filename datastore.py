@@ -18,8 +18,8 @@ def create_user_datastore():
 
 def create_content_datastore():
     if flask.current_app:
-        if "user_datastore" not in flask.g:
-            flask.g["user_datastore"] = SQLAlchemyContentDatastore(db, Content, Category)
+        if "content_datastore" not in flask.g:
+            flask.g["content_datastore"] = SQLAlchemyContentDatastore(db, Content, Category)
         return flask.g
     else:
         return LocalProxy(lambda: SQLAlchemyContentDatastore(db, Content, Category))
