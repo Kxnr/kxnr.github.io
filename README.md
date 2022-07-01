@@ -1,5 +1,7 @@
 # kxnr.me
 
+## I broke my hosting configuration--my website will be back up soon!
+
 ## Description
 
 This is the infrastructure supporting [my website](https://kxnr.me), with dynamic content loading and two factor access control to content.
