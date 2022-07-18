@@ -22,8 +22,8 @@ campaigned for these to be merged into the upstream repositories, though I inten
 
 #### Python
 
-* flask-security-too (my [fork](https://github.com/kxnr/flask-security))
-  * passlib (my [fork](https://github.com/kxnr/passlib))
+* flask-security-too
+* passlib
 * bleach
 * sqlalchemy
 * click
