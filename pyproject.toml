@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kxnr.me"
+authors = [
+    {name = "Connor Keane", email = "connor.keane@kxnr.me"},
+]
+description = "Flask app for kxnr.me"
+readme = "README.md"
+requires-python = ">=3.7"
+license = {file="LICENSE.md"}
+keywords = []
+classifiers = [
+    "Framework :: Flask",
+    "Programming Language :: Python :: 3",
+    "License :: GPL :: 3.0"
+]
+dependencies = [
+    "flask",
+    "flask-security-too",
+    "flask-minify",
+    "flask-babel",
+    "passlib",
+    "bleach",
+    "flask-sqlalchemy",
+    "click",
+    "email_validator",
+    "cryptography",
+    "pyqrcode",
+    "markdown",
+    "jinja2",
+]
+dynamic = ["version"]
