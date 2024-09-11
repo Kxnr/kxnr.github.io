@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "tailwindcss": "^3.4.10",
+    "tailwindcss-border-image": "^1.1.2"
+  }
+}
