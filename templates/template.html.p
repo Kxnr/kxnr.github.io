@@ -14,10 +14,13 @@
 	@; TODO: pass in additional classes
 	@; TODO: pass in border width
 	@; TODO: pass in background color
-	(div #:class "bg-marble m-10"
-		(div #:class "bg-charcoal bg-clip-padding p-4 border-l-4 border-transparent border-solid"
+	@; (div #:class "border-b border-bone"
+	(div
+	(div #:class "bg-marble-fade m-4"
+		(div #:class "bg-charcoal bg-clip-padding p-4 border-4 border-transparent border-solid"
 			content
 		)
+	)
 	)
 )
 
@@ -39,8 +42,19 @@
 			(title "Connor Keane Test")
 			(link #:rel "stylesheet" #:type "text/css" #:media "all" #:href "css/output.css")
 		)
-		(body #:class "bg-charcoal text-bone border-bone z-0"
-			(header #:class "sticky top-0 w-full bg-copper shadow-sm content-center items-center border-b z-10"
+		(body #:class "bg-charcoal text-bone border-bone z-0 h-full"
+			@; TODO: limit aspect ratio range, get taller on bigger screen
+			(div #:class "text-center bg-marble p-4 border-b min-h-aspect"
+				(div #:class "bg-charcoal border-2 shadow-sm max-w-4xl"
+					(div #:class "text-8xl text-transparent bg-marble bg-clip-text"
+						"Connor Keane"
+					)
+					(div #:class "text-2xl text-transparent bg-marble bg-clip-text"
+						"Developer, tinkerer, science enthusiast"
+					)
+				)
+			)
+			(div #:class "sticky top-0 w-full bg-copper shadow-sm content-center items-center border-b z-10"
 				@; TODO: use knockout for bottom border
 				(div #:class "relative flex px-4 py-2 items-center"
 					(div #:class "flex-none" "KXNR")
@@ -52,19 +66,8 @@
 					)
 				)
 			)
-			(div #:class "text-center bg-marble p-4 border-b"
-				@; TODO: need something to set this apart
-				(div #:class "bg-charcoal border-2"
-					(div #:class "text-8xl text-transparent bg-marble bg-clip-text"
-						"Connor Keane"
-					)
-					(div #:class "text-2xl text-transparent bg-marble bg-clip-text"
-						"Developer, tinkerer, science enthusiast"
-					)
-				)
-			)
 			(div #:class "bg-charcoal relative w-full z-0"
-				(div #:class "container mx-auto"
+				(div #:class "container mx-auto shadow-lg p-4 m-4"
 					(outlined 
 						(div
 							(div #:class "text-4xl" "Some Title")
