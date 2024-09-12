@@ -67,7 +67,7 @@
 				)
 			)
 			(div #:class "bg-charcoal relative w-full z-0"
-				(div #:class "container mx-auto shadow-lg p-4 m-4"
+				(div #:class "container mx-auto shadow-2xl p-4 m-4"
 					(outlined 
 						(div
 							(div #:class "text-4xl" "Some Title")
