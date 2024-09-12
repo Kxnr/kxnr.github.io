@@ -44,8 +44,8 @@
 		)
 		(body #:class "bg-charcoal text-bone border-bone z-0 h-full"
 			@; TODO: limit aspect ratio range, get taller on bigger screen
-			(div #:class "text-center bg-marble p-4 border-b min-h-aspect"
-				(div #:class "bg-charcoal border-2 shadow-sm max-w-4xl"
+			(div #:class "flex items-center justify-center text-center bg-marble p-4 border-b min-h-aspect"
+				(div #:class "bg-charcoal border-2 shadow-sm max-w-4xl grow"
 					(div #:class "text-8xl text-transparent bg-marble bg-clip-text"
 						"Connor Keane"
 					)
