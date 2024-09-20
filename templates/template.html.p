@@ -1,6 +1,4 @@
 @; TODO: build tailwind css in deployment
-@; TODO: add a standard nav header
-
 @(struct header-link (name target))
 @(define header-entries
 	(list
