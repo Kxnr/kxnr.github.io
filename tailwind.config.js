@@ -14,8 +14,8 @@ module.exports = {
   			"aspect": "10vw"
 			},
       backgroundImage: {
-        'marble': "url('/marble.jpg')",
-        'marble-fade': "linear-gradient(156deg, rgba(0,0,0,0) 10%, rgba(54,72,78,1) 15%, rgba(54,72,78,1) 85%, rgba(0,0,0,0) 90%), url('/marble.jpg')"
+        'background': "url('/background.png')",
+        'background-fade': "linear-gradient(156deg, rgba(0,0,0,0) 10%, rgba(54,72,78,1) 15%, rgba(54,72,78,1) 85%, rgba(0,0,0,0) 90%), url('/background.png')"
       }
     }
   }

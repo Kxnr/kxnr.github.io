@@ -14,7 +14,7 @@
 	@; TODO: pass in background color
 	@; (div #:class "border-b border-bone"
 	(div
-	(div #:class "bg-marble-fade m-4"
+	(div #:class "bg-background-fade m-4"
 		(div #:class "bg-charcoal bg-clip-padding p-4 border-4 border-transparent border-solid"
 			content
 		)
@@ -24,7 +24,7 @@
 
 @(define (knockout content)
 	@; TODO: pass in additional classes
-	(div #:class "bg-marble bg-clip-text text-transparent"
+	(div #:class "bg-background bg-clip-text text-transparent"
 		content
 	)
 )
@@ -42,12 +42,9 @@
 		)
 		(body #:class "bg-charcoal text-bone border-bone z-0 h-full"
 			@; TODO: limit aspect ratio range, get taller on bigger screen
-			(div #:class "flex items-center justify-center text-center bg-marble p-4 border-b min-h-aspect"
+			(div #:class "flex items-center justify-center text-center bg-background p-4 border-b min-h-aspect"
 				(div #:class "bg-charcoal border-2 shadow-sm max-w-4xl grow"
-					(div #:class "text-8xl text-transparent bg-marble bg-clip-text"
-						"Connor Keane"
-					)
-					(div #:class "text-2xl text-transparent bg-marble bg-clip-text"
+					(div #:class "text-8xl text-transparent bg-background bg-clip-text"
 						"Developer, tinkerer, science enthusiast"
 					)
 				)
