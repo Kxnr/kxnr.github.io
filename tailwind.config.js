@@ -11,7 +11,7 @@ module.exports = {
         'dark-blue': '#2c6163ff',
       },
       minHeight: {
-  			"aspect": "10vw"
+  			"aspect": "5vw"
 			},
       backgroundImage: {
         'background': "url('/background.png')",

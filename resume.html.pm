@@ -13,7 +13,7 @@
 
 @centered[]{
   @h1[]{Connor Keane}
-  Boulder, CO | connor.keane(at)kxnr.me | github.com/Kxnr
+  Boulder, CO | connor.keane@"@"kxnr.me | github.com/Kxnr
 }
 
 @section-header[]{Education}

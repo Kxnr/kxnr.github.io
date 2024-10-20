@@ -617,6 +617,10 @@ video {
   margin-right: auto;
 }
 
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
 .ml-auto {
   margin-left: auto;
 }
@@ -625,12 +629,12 @@ video {
   display: flex;
 }
 
-.h-full {
-  height: 100%;
+.h-dvh {
+  height: 100dvh;
 }
 
 .min-h-aspect {
-  min-height: 10vw;
+  min-height: 5vw;
 }
 
 .w-full {
@@ -699,12 +703,12 @@ video {
   background-color: #a77452ff;
 }
 
-.bg-marble {
-  background-image: url('/marble.jpg');
+.bg-background {
+  background-image: url('/background.png');
 }
 
-.bg-marble-fade {
-  background-image: linear-gradient(156deg, rgba(0,0,0,0) 10%, rgba(54,72,78,1) 15%, rgba(54,72,78,1) 85%, rgba(0,0,0,0) 90%), url('/marble.jpg');
+.bg-background-fade {
+  background-image: linear-gradient(156deg, rgba(0,0,0,0) 10%, rgba(54,72,78,1) 15%, rgba(54,72,78,1) 85%, rgba(0,0,0,0) 90%), url('/background.png');
 }
 
 .bg-clip-padding {
@@ -734,19 +738,19 @@ video {
   text-align: center;
 }
 
-.text-2xl {
-  font-size: 1.5rem;
-  line-height: 2rem;
-}
-
 .text-4xl {
   font-size: 2.25rem;
   line-height: 2.5rem;
 }
 
-.text-8xl {
-  font-size: 6rem;
+.text-6xl {
+  font-size: 3.75rem;
   line-height: 1;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
 
 .text-bone {
@@ -770,7 +774,7 @@ video {
 }
 
 @page {
-  size: 7in 9.25in;
+  size: 8.5in 11in;
 
-  margin: 27mm 16mm 27mm 16mm;
+  margin: 1in 1in 1in 1in;
 }
