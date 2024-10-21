@@ -15,11 +15,6 @@
 	)
 )
 
-@; TODO: cards and card grid
-@; @(define (card content)
-@;
-@; )
-
 
 <!DOCTYPE html>
 @(->html 
@@ -27,7 +22,7 @@
 		(head 
 			(meta #:charset "UTF-8") 
 			(page-title "Connor Keane")
-			(link #:rel "stylesheet" #:type "text/css" #:media "all" #:href "css/output.css")
+			(link #:rel "stylesheet" #:type "text/css" #:media "all" #:href "/css/output.css")
 		)
 		(body #:class "bg-charcoal text-bone border-bone z-0 h-dvh text-md"
 			@; Banner

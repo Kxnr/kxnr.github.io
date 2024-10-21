@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require txexpr)
+(require txexpr pollen/decode)
 (provide (all-defined-out))
 
 (module setup racket/base
@@ -26,3 +26,15 @@
 (define (break)
   (txexpr 'br empty empty)
 )
+
+(define (root . elements)
+   (txexpr 'root empty (decode-elements elements
+     #:txexpr-elements-proc decode-paragraphs)))
+
+; (define (preview path)
+;   ; TODO: parse html into txepr
+;   ; TODO: get title and body
+;   ; TODO: read more button
+
+;   ()
+;   )
