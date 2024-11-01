@@ -1,4 +1,6 @@
 build:
-    npx tailwindcss -i ./css/source.css -o ./css/output.css
-    npx tailwindcss -i ./css/resume_source.css -o ./css/resume.css
-    raco pollen render . --recursive
+    mkdir -p build
+    mkdir -p build/css
+    raco pollen publish ./src ./build
+    npx tailwindcss -i ./src/css/source.css -o ./build/css/output.css
+    npx tailwindcss -i ./src/css/resume_source.css -o ./build/css/resume.css
