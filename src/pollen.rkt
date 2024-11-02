@@ -5,7 +5,9 @@
 
 (module setup racket/base
   (provide (all-defined-out))
+  (require racket/path)
   (define command-char #\@)
+  (define omitted-path? (lambda (path?) (member (path-get-extension path?) (list #".css"))))
 )
 
 
