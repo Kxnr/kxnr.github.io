@@ -27,7 +27,7 @@
     (page-title "Connor Keane")
     (meta #:name "robots" #:content "noai, noimageai")
     (link #:rel "stylesheet" #:type "text/css" #:media "all" #:href "/css/output.css")
-    )
+   )
    (body #:class "bg-charcoal text-bone border-bone z-0 h-dvh text-md"
          @; Links
          (div #:class "sticky top-0 w-full bg-copper shadow-sm content-center items-center border-b z-10 text-l"
@@ -47,6 +47,6 @@
                )
               )
          )
-   )
    (footer (p "© 2024 Connor Keane.") (p "I don't use AI in my work, so don't use my work for your AI. Fair?"))
+   )
   )
