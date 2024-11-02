@@ -1,7 +1,7 @@
 build:
-    mkdir -p build
-    mkdir -p build/css
+    mkdir -p docs
+    mkdir -p docs/css
     raco pollen render -pr ./src
-    raco pollen publish ./src ./build
-    npx tailwindcss -i ./src/css/source.css -o ./build/css/output.css -m
-    npx tailwindcss -i ./src/css/resume_source.css -o ./build/css/resume.css -m
+    raco pollen publish ./src ./docs
+    npx tailwindcss -i ./src/css/source.css -o ./docs/css/output.css -m
+    npx tailwindcss -i ./src/css/resume_source.css -o ./docs/css/resume.css -m
