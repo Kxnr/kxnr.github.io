@@ -9,16 +9,6 @@
     )
    )
 
-@; TODO: this will send the entirety of a file as a preview, which is less than desirable
-@(define preview-file
-   (path-replace-extension
-       (let-values ([(path name flag) (split-path (symbol->string here))]) name)
-       #".preview")
-   )
-@(define (save-preview) (display-to-file (->html (div doc)) preview-file #:exists 'replace))
-
-@save-preview[]{}
-
 <!DOCTYPE html>
 @(->html
   (html
