@@ -123,13 +123,15 @@
 
 
   @div[#:class "flex flex-row"]{
-    @section["Education" #:class-lst '("basis-1/3")]{
+    @; FIXME: little wonky to disable border this way
+
+    @section["Education" #:class-lst '("border-none" "basis-1/3")]{
       @strong[]{Swarthmore College}
       BA in Cognitive Science
       Minor in Physics
     }
 
-    @section["Skills"]{
+    @section["Skills" #:class-lst "border-none"]{
       @skills-list["Programming"]{
         Python
         Rust
