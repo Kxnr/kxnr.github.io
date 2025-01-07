@@ -93,18 +93,18 @@
   }
 
   @section["Summary"]{
-    I'm a software engineer who does things
+    Lorem Ipsum Summary
   }
 
   @section["Experience"]{
     @job-header["Staff Software Engineer" "Ascend Analytics" "January 2024 - Present"]{}
     @job-header["Senior Software Engineer" "Ascend Analytics" "July 2022 - January 2024"]{}
     @job-header["Software Engineer" "Ascend Analytics" "August 2021 - July 2022"]{}
-    @job-description["I wrote software" "I wrote a big project"]{}
+    @job-description[]{Job description here}
     @job-break
 
     @job-header["Data and Programming Specialist""University of Pennsylvania" "2019-2021"]{}
-    @job-description[]{I wrote some software}
+    @job-description[]{Job description here}
     @bullet-list[]{
       First bullet
       Second bullet
