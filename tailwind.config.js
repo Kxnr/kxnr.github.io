@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./build/**/*.html"],
+  // content path is relative to project root
+  content: ["./docs/**/*.{html,js}"],
   theme: {
     extend: {
       colors: {
@@ -16,6 +17,10 @@ module.exports = {
       backgroundImage: {
         'background': "url('/background.png')",
         'background-fade': "linear-gradient(156deg, rgba(0,0,0,0) 10%, rgba(54,72,78,1) 15%, rgba(54,72,78,1) 85%, rgba(0,0,0,0) 90%), url('/background.png')"
+      },
+      screens: {
+        print: { raw: 'print' },
+        screen: { raw: 'screen' },
       }
     }
   }

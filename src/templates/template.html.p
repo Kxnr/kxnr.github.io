@@ -29,7 +29,7 @@
 			(div #:class "flex items-center justify-center text-center bg-background p-4 border-b min-h-aspect"
 				(div #:class "bg-charcoal border-2 shadow-sm max-w-4xl grow p-4"
 					(knockout "Connor Keane" "text-6xl")
-					(knockout "Developer, tinkerer, science enthusiast" "text-xl")
+					(knockout "Developer | tinkerer | science enthusiast" "text-xl")
 				)
 			)
 			@; Links
