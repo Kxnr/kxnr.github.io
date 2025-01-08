@@ -19,7 +19,7 @@
 )
 
 @(define (box #:class-lst [class-lst '()] . content) 
-  `(div (,(classes "p-4" "w-full" "border-b-2" "border-black" class-lst)) ,@content)
+  `(div (,(classes "p-4" "w-full" "border-b-2" "screen:border-bone" "print:border-black" class-lst)) ,@content)
 )
 
 @(define (header-items #:class-lst [class-lst '()] . items) 

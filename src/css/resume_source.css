@@ -7,3 +7,9 @@
     size: 8.5in 11in;
     margin: 0.5in;
 }
+
+@media print {
+    .no-print {
+        display: none;
+    }
+}

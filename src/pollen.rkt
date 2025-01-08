@@ -9,15 +9,20 @@
   (provide (all-defined-out))
   (require racket/path)
   (define command-char #\@)
+  ; TODO: ignore template files
   (define omitted-path? (lambda (path?) (member (path-get-extension path?) (list #".css")))))
 
 (define (outlined . content)
-  (txexpr*
-   'div
-   '((class "bg-background-fade m-4"))
-   (txexpr 'div
-           '((class "bg-charcoal bg-clip-padding p-4 border-4 border-transparent border-solid"))
-           content)))
+  `(div 
+    ((class "md:shadow-2xl md:p-2"))
+    (div 
+     ((class "bg-background-fade m-2"))
+     (div
+      ((class "bg-charcoal bg-clip-padding p-2 border-4 border-transparent border-solid"))
+        ,@content)
+       )
+    )
+)
 
 (define (title . content)
   (txexpr 'div '((class "text-4xl border-b w-full border-bone text-bone mb-2")) content))
