@@ -27,7 +27,7 @@ html>
         "flex items-center justify-center text-center bg-background p-4 border-b border-inherit min-h-aspect"
         (div #:class "bg-charcoal border-2 shadow-sm max-w-4xl grow p-4 border-inherit"
              (knockout "Connor Keane" "text-6xl")
-             (knockout "Developer | tinkerer | science enthusiast" "text-xl")))
+             (knockout "Developer | Tinkerer | Science Enthusiast" "text-xl")))
    @; Links
    (div #:class
         "sticky top-0 w-full bg-copper shadow-sm content-center items-center border-b border-inherit z-10 text-l"
