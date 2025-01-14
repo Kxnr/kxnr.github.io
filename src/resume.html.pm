@@ -142,6 +142,7 @@
           @skills-list["Languages"]{
             Python
             Rust
+            SQL
             HTML/CSS
             C#
             Javascript
@@ -157,6 +158,7 @@
           } 
           @skills-list["Tools"]{
             Azure
+            Docker
             git
             Terraform
             Linux
