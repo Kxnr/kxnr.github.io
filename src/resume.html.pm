@@ -67,21 +67,20 @@
 
 
 @define[separator]{//}
-@; TODO: replace with box
 @define[job-break]{@div[#:class "my-2"]{}}
 
   @div[#:class "text-sm border-inherit"]{
   @section-box{
     @header[]{
       Connor Keane
-      @; TODO: link if html
-      @header-items["Berkeley, CA" "github.com/kxnr"]{}
+      @header-items["kxnr.me" "github.com/kxnr"]{}
     }
   }
 
   @section-box{
     @section["Summary"]{
-      Curious Software Engineer with broad data engineering and system design experience in both large codebases and greenfield development. Adept at creating software that uplifts team productivity and streamlines existing workflows.
+      Software Engineer building data infrastructure, designing systems, and writing development
+      tools for complex problem domains.
     }
   }
 
@@ -92,7 +91,8 @@
       @job-header["Software Engineer" "Ascend Analytics" "August 2021 - June 2022"]{}
       @job-description[]{Responsible for development of data infrastructure and integration with electrical grid systems for a real-time optimization platform}
       @bullet-list{
-        Used Apache Datafusion to increase data throughput by 400% at half the original cost
+
+        Designed and implemented the datastructures and libraries used to represent energy bids throughout the SmartBidder platform
 
         Created structures for integration with client and grid systems, enabling a team of three developers to write and maintain over a dozen integrations
 
