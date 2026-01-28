@@ -3,7 +3,6 @@
 @(struct header-link (name target))
 @(define header-entries
   (list (header-link "About Me" "about_me.html")
-        (header-link "Resume" "resume.html")
         (header-link "Github" "https://github.com/Kxnr")))
 
 @(define (knockout content . classes)
